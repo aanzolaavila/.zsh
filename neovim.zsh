@@ -1,5 +1,9 @@
+# Vim
+export PATH="$PATH:$HOME/.local/bin"
+
 # NeoVim options
 export UNCRUSTIFY_CONFIG="-"
+export PYENV_ROOT="$(pyenv root)"
 
 # Perl
 PATH="$HOME/perl5/bin${PATH:+:${PATH}}"; export PATH;

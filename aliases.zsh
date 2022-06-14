@@ -9,3 +9,5 @@ alias notifySound='tput bel; terminal-notifier -title "Terminal" -message'
 
 # bat
 alias cat="bat"
+
+alias la="ls -al"

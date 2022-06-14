@@ -1,12 +1,10 @@
+zmodule mroth/evalcache
 zmodule zsh-users/zsh-completions --fpath src
 zmodule completion
 
 zmodule zsh-users/zsh-history-substring-search
-bindkey '^[[A' history-substring-search-up
-bindkey '^[[B' history-substring-search-down
-
 zmodule zsh-users/zsh-syntax-highlighting
-# zmodule zsh-users/zsh-autosuggestions
+zmodule zsh-users/zsh-autosuggestions
 
 zmodule aanzolaavila/pure --source async.zsh --source pure.zsh
 
@@ -15,8 +13,8 @@ zmodule exa
 zmodule fzf
 
 zmodule ohmyzsh/ohmyzsh \
-		  -f 'plugins/git' -s 'plugins/git/git.plugin.zsh' \
-		  -f 'plugins/gitignore' -s 'plugins/gitignore/gitignore.plugin.zsh' \
-		  -f 'plugins/terraform' -s 'plugins/terraform/terraform.plugin.zsh' \
-		  -f 'plugins/wd' -s 'plugins/wd/wd.plugin.zsh' \
-		  -f 'plugins/aws' -s 'plugins/aws/aws.plugin.zsh'
+	-f 'plugins/git' -s 'plugins/git/git.plugin.zsh' \
+	-f 'plugins/gitignore' -s 'plugins/gitignore/gitignore.plugin.zsh' \
+	-f 'plugins/terraform' -s 'plugins/terraform/terraform.plugin.zsh' \
+	-f 'plugins/wd' -s 'plugins/wd/wd.plugin.zsh' \
+	-f 'plugins/aws' -s 'plugins/aws/aws.plugin.zsh'

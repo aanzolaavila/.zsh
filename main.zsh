@@ -1,9 +1,12 @@
 export ZSH_LOCATION="$HOME/.zsh"
 
-# zmodload zsh/zprof
+local benchmark=false
 
-export PURE_CHECK_SSH=false
+if [[ $benchmark = true ]]; then
+  zmodload zsh/zprof
+fi
 
+source $ZSH_LOCATION/globals.zsh
 source $ZSH_LOCATION/zim.zsh
 source $ZSH_LOCATION/neovim.zsh
 source $ZSH_LOCATION/addons.zsh
@@ -18,4 +21,6 @@ fi
 
 source $ZSH_LOCATION/tmux.zsh
 
-# zprof
+if [[ $benchmark = true ]]; then
+  zprof
+fi

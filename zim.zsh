@@ -1,7 +1,4 @@
-ZIM_HOME="$HOME/.cache/zim"
-#
-# Where .zimrc is
-ZDOTDIR="$ZSH_LOCATION/zim"
+export ZIM_HOME="$HOME/.cache/zim"
 
 # Download zimfw plugin manager if missing.
 if [[ ! -e ${ZIM_HOME}/zimfw.zsh ]]; then

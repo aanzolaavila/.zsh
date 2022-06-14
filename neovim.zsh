@@ -3,7 +3,8 @@ export PATH="$PATH:$HOME/.local/bin"
 
 # NeoVim options
 export UNCRUSTIFY_CONFIG="-"
-export PYENV_ROOT="$(pyenv root)"
+# export PYENV_ROOT="$(pyenv root)"
+export PYENV_ROOT="$HOME/.pyenv"
 
 # Perl
 PATH="$HOME/perl5/bin${PATH:+:${PATH}}"; export PATH;

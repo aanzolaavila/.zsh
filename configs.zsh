@@ -17,3 +17,6 @@ defaults write NSGlobalDomain InitialKeyRepeat -int 12
 
 # Beautify man with bat
 export MANPAGER="sh -c 'col -bx | bat -l man -p'"
+
+bindkey '^[[A' history-substring-search-up
+bindkey '^[[B' history-substring-search-down

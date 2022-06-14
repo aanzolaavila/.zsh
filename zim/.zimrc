@@ -6,7 +6,7 @@ bindkey '^[[A' history-substring-search-up
 bindkey '^[[B' history-substring-search-down
 
 zmodule zsh-users/zsh-syntax-highlighting
-zmodule zsh-users/zsh-autosuggestions
+# zmodule zsh-users/zsh-autosuggestions
 
 zmodule aanzolaavila/pure --source async.zsh --source pure.zsh
 

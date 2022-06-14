@@ -1,5 +1,10 @@
 zmodule zsh-users/zsh-completions --fpath src
 zmodule completion
+
+zmodule zsh-users/zsh-history-substring-search
+bindkey '^[[A' history-substring-search-up
+bindkey '^[[B' history-substring-search-down
+
 zmodule zsh-users/zsh-syntax-highlighting
 zmodule zsh-users/zsh-autosuggestions
 

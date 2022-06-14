@@ -3,7 +3,7 @@ zmodule completion
 zmodule zsh-users/zsh-syntax-highlighting
 zmodule zsh-users/zsh-autosuggestions
 
-zmodule sindresorhus/pure --source async.zsh --source pure.zsh
+zmodule aanzolaavila/pure --source async.zsh --source pure.zsh
 
 zmodule archive
 zmodule exa

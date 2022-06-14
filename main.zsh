@@ -2,6 +2,8 @@ export ZSH_LOCATION="$HOME/.zsh"
 
 # zmodload zsh/zprof
 
+export PURE_CHECK_SSH=true
+
 source $ZSH_LOCATION/zim.zsh
 source $ZSH_LOCATION/neovim.zsh
 source $ZSH_LOCATION/addons.zsh

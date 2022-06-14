@@ -1,0 +1,14 @@
+zmodule sindresorhus/pure --source async.zsh --source pure.zsh
+zmodule zsh-users/zsh-syntax-highlighting
+zmodule zsh-users/zsh-autosuggestions
+
+# aliases for exa
+zmodule exa
+
+zmodule fzf
+
+zmodule ohmyzsh/ohmyzsh \
+		  -f 'plugins/git' -s 'plugins/git/git.plugin.zsh' \
+		  -f 'plugins/gitignore' -s 'plugins/gitignore/gitignore.plugin.zsh' \
+		  -f 'plugins/terraform' -s 'plugins/terraform/terraform.plugin.zsh' \
+		  -f 'plugins/aws' -s 'plugins/aws/aws.plugin.zsh'

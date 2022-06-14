@@ -7,10 +7,5 @@ alias zconf="nvim ~/.zshrc"
 alias notify='terminal-notifier -title "Terminal" -message'
 alias notifySound='tput bel; terminal-notifier -title "Terminal" -message'
 
-# exa
-alias ls="exa"
-alias ll="exa -alh"
-alias tree="exa --tree"
-
 # bat
 alias cat="bat"

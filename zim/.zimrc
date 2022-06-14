@@ -1,10 +1,12 @@
-zmodule sindresorhus/pure --source async.zsh --source pure.zsh
+zmodule zsh-users/zsh-completions --fpath src
+zmodule completion
 zmodule zsh-users/zsh-syntax-highlighting
 zmodule zsh-users/zsh-autosuggestions
 
-# aliases for exa
-zmodule exa
+zmodule sindresorhus/pure --source async.zsh --source pure.zsh
 
+zmodule archive
+zmodule exa
 zmodule fzf
 
 zmodule ohmyzsh/ohmyzsh \

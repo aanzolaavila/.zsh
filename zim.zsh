@@ -17,9 +17,5 @@ if [[ ! ${ZIM_HOME}/init.zsh -nt ${ZDOTDIR:-${HOME}}/.zimrc ]]; then
 fi
 
 
-# Needed for external ohmyzsh plugins (i.e. compdef command)
-autoload -Uz compinit
-compinit
-
 # Initialize modules.
 source ${ZIM_HOME}/init.zsh

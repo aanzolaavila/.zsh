@@ -2,7 +2,7 @@ export ZSH_LOCATION="$HOME/.zsh"
 
 # zmodload zsh/zprof
 
-export PURE_CHECK_SSH=true
+export PURE_CHECK_SSH=false
 
 source $ZSH_LOCATION/zim.zsh
 source $ZSH_LOCATION/neovim.zsh

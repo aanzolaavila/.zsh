@@ -6,12 +6,9 @@ export PKG_CONFIG_PATH="/usr/local/opt/openssl@1.1/lib/pkgconfig"
 
 # GO
 export GOPRIVATE="code.hq.twilio.com"
-export PATH="$HOME/.jenv/bin:$PATH"
 
 # jEnv
+export PATH="$HOME/.jenv/bin:$PATH"
 _evalcache jenv init -
-
-# PyEnv virtualenv
-_evalcache pyenv virtualenv-init -
 
 export SUMO_HOME=/usr/local/opt/sumo/share/sumo

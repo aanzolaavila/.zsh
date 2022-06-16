@@ -1,4 +1,8 @@
+# Pyenv
 _evalcache pyenv init --path
+
+# Pyenv virtualenv
+_evalcache pyenv virtualenv-init -
 
 export GUILE_TLS_CERTIFICATE_DIRECTORY=/usr/local/etc/gnutls/
 

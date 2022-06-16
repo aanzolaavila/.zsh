@@ -1,4 +1,5 @@
 export ZSH_LOCATION="$HOME/.zsh"
+export ZSH_EVALCACHE_DIR="/tmp/.zsh-evalcache"
 
 local benchmark=false
 

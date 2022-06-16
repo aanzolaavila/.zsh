@@ -4,6 +4,9 @@ test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell
 # pyenv
 _evalcache pyenv init -
 
+# pyenv virtualenv
+_evalcache pyenv virtualenv-init -
+
 # sdkman
 export SDKMAN_DIR="$HOME/.sdkman"
 

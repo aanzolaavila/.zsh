@@ -4,3 +4,7 @@ terraform 1.2.3
 golang 1.18.3
 neovim 0.7.0
 nodejs 18.4.0
+cmake 3.23.2
+make 4.3
+websocat 1.9.0
+conan 1.49.0

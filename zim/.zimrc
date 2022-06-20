@@ -1,6 +1,7 @@
 zmodule mroth/evalcache
 zmodule zsh-users/zsh-completions --fpath src
 zmodule completion
+zmodule environment
 
 zmodule zsh-users/zsh-history-substring-search
 zmodule zsh-users/zsh-syntax-highlighting
@@ -11,6 +12,7 @@ zmodule aanzolaavila/pure --source async.zsh --source pure.zsh
 zmodule archive
 zmodule exa
 zmodule fzf
+zmodule asdf
 
 zmodule ohmyzsh/ohmyzsh \
 	-f 'plugins/git' -s 'plugins/git/git.plugin.zsh' \

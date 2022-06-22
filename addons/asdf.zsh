@@ -1,4 +1,4 @@
-function _zsh_asdf_install_plugins() {
+function _zsh_load_asdf() {
   local asdf_dir="$HOME/.asdf"
   local plugin_dir="$asdf_dir/plugins"
   local new_plugin=false
@@ -17,5 +17,3 @@ function _zsh_asdf_install_plugins() {
     asdf install
   fi
 }
-
-_zsh_asdf_install_plugins

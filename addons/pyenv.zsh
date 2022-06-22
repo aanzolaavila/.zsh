@@ -40,5 +40,3 @@ function _zsh_load_pyenv() {
     '
   fi
 }
-
-_zsh_load_pyenv

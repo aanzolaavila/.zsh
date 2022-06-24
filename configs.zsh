@@ -19,7 +19,7 @@ export PATH=$PATH:/Applications/MySQLWorkbench.app/Contents/MacOS
 # KeyRepeat workaround
 defaults write NSGlobalDomain ApplePressAndHoldEnabled -bool false
 defaults write NSGlobalDomain KeyRepeat -int 1
-defaults write NSGlobalDomain InitialKeyRepeat -int 6
+defaults write NSGlobalDomain InitialKeyRepeat -int 12
 
 # Beautify man with bat
 export MANPAGER="sh -c 'col -bx | bat -l man -p'"

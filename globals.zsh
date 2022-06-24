@@ -1,6 +1,6 @@
 # Where .zimrc is
-export ZDOTDIR="$ZSH_LOCATION/zim"
+export ZDOTDIR="$ZSH_LOCATION"
 
 # zsh interactive non-login workaround
-[[ ! -f "$ZDOTDIR/.zshrc" ]] && ln -s $HOME/.zshrc $ZDOTDIR/.zshrc
+[[ ! -f "$ZDOTDIR/.zshrc" ]] && ln -s $ZSH_LOCATION/init.zsh $ZDOTDIR/.zshrc
 export PURE_CHECK_SSH=false

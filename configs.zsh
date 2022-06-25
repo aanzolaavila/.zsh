@@ -9,6 +9,11 @@ export GUILE_TLS_CERTIFICATE_DIRECTORY=/usr/local/etc/gnutls/
 export JAVA_HOME=/Library/Java/JavaVirtualMachines/graalvm-ce-lts-java11-20.3.1/Contents/Home
 export PATH=/Library/Java/JavaVirtualMachines/graalvm-ce-lts-java11-20.3.1/Contents/Home/bin:"$PATH"
 
+# LLVM flags
+export PATH="/opt/homebrew/opt/llvm/bin:$PATH"
+export LDFLAGS="$LDFLAGS -L/opt/homebrew/opt/llvm/lib"
+export CPPFLAGS="$CPPFLAGS -I/opt/homebrew/opt/llvm/include"
+
 export TERM="xterm-256color"
 
 export GOPATH=$HOME/go
@@ -26,3 +31,5 @@ export MANPAGER="sh -c 'col -bx | bat -l man -p'"
 
 bindkey '^[[A' history-substring-search-up
 bindkey '^[[B' history-substring-search-down
+
+source $ZSH_LOCATION/configs/inputs.zsh

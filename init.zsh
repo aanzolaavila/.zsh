@@ -8,6 +8,7 @@ if [[ $benchmark = true ]]; then
 fi
 
 declare -a confunctions
+declare -a deferfunctions
 
 source $ZSH_LOCATION/globals.zsh
 source $ZSH_LOCATION/zim.zsh
@@ -33,6 +34,10 @@ async_start_worker general_worker
 
 for f in ${confunctions[@]}; do
   async_job general_worker $f
+done
+
+for f in ${deferfunctions[@]}; do
+  $f
 done
 
 # Cleanup PATH

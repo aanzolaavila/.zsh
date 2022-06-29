@@ -6,5 +6,6 @@ source $ZSH_LOCATION/addons/asdf.zsh
 confunctions+=_zsh_load_addons
 confunctions+=_zsh_load_iterm
 confunctions+=_zsh_load_pyenv
-confunctions+=_zsh_load_sdkman
 confunctions+=_zsh_load_asdf
+
+deferfunctions+=_zsh_load_sdkman

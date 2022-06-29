@@ -15,5 +15,3 @@ function _zsh_load_zim(){
   # Initialize modules.
   source ${ZIM_HOME}/init.zsh
 }
-
-_zsh_load_zim

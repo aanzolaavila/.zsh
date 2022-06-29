@@ -1,6 +1,10 @@
-export OWL="$HOME/code/owl"
-_evalcache $OWL/bin/owl init -
+function _zsh_load_twilio(){
+  export OWL="$HOME/code/owl"
+  _evalcache $OWL/bin/owl init -
 
-source $ZSH_LOCATION/twilio/configs.zsh
-source $ZSH_LOCATION/twilio/helpers.zsh
-source $ZSH_LOCATION/twilio/secrets.zsh
+  source $ZSH_LOCATION/twilio/configs.zsh
+  source $ZSH_LOCATION/twilio/helpers.zsh
+  source $ZSH_LOCATION/twilio/secrets.zsh
+}
+
+confunctions+=_zsh_load_twilio

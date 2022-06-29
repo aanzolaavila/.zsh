@@ -6,5 +6,7 @@ function _zsh_load_sdkman() {
     curl -s "https://get.sdkman.io" | bash
   fi
 
-  [[ -s "$SDKMAN_DIR/bin/sdkman-init.sh" ]] && source "$SDKMAN_DIR/bin/sdkman-init.sh"
+  if [[ -s "$SDKMAN_DIR/bin/sdkman-init.sh" ]]; then
+    zsh-defer source "$SDKMAN_DIR/bin/sdkman-init.sh"
+  fi
 }

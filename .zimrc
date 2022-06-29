@@ -1,4 +1,5 @@
 zmodule mroth/evalcache
+zmodule romkatv/zsh-defer
 zmodule zsh-users/zsh-completions --fpath src
 zmodule completion
 zmodule environment

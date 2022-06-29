@@ -9,6 +9,6 @@ function _zsh_load_jenv() {
 
 # already defined in addons.zsh
 # async_start_worker addons_worker -n
-async_job addons_worker _zsh_load_jenv
+# async_job addons_worker _zsh_load_jenv
 
 export SUMO_HOME=/usr/local/opt/sumo/share/sumo

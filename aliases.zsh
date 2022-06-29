@@ -44,4 +44,4 @@ function _zsh_load_aliases() {
   compdef _dirs d
 }
 
-confunctions+=_zsh_load_aliases
+deferfunctions+=_zsh_load_aliases

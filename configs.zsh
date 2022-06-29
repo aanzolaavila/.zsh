@@ -7,15 +7,10 @@ function _zsh_load_configs() {
 
   export GUILE_TLS_CERTIFICATE_DIRECTORY=/usr/local/etc/gnutls/
 
-<<<<<<< Updated upstream
-# LLVM flags
-export PATH="/opt/homebrew/opt/llvm/bin:$PATH"
-export LDFLAGS="$LDFLAGS -L/opt/homebrew/opt/llvm/lib"
-export CPPFLAGS="$CPPFLAGS -I/opt/homebrew/opt/llvm/include"
-=======
-  export JAVA_HOME=/Library/Java/JavaVirtualMachines/graalvm-ce-lts-java11-20.3.1/Contents/Home
-  export PATH=/Library/Java/JavaVirtualMachines/graalvm-ce-lts-java11-20.3.1/Contents/Home/bin:"$PATH"
->>>>>>> Stashed changes
+  # LLVM flags
+  export PATH="/opt/homebrew/opt/llvm/bin:$PATH"
+  export LDFLAGS="$LDFLAGS -L/opt/homebrew/opt/llvm/lib"
+  export CPPFLAGS="$CPPFLAGS -I/opt/homebrew/opt/llvm/include"
 
   export TERM="xterm-256color"
 
@@ -32,15 +27,8 @@ export CPPFLAGS="$CPPFLAGS -I/opt/homebrew/opt/llvm/include"
   # Beautify man with bat
   export MANPAGER="sh -c 'col -bx | bat -l man -p'"
 
-<<<<<<< Updated upstream
-bindkey '^[[A' history-substring-search-up
-bindkey '^[[B' history-substring-search-down
-
-source $ZSH_LOCATION/configs/inputs.zsh
-=======
   bindkey '^[[A' history-substring-search-up
   bindkey '^[[B' history-substring-search-down
-}
 
-confunctions+=_zsh_load_configs
->>>>>>> Stashed changes
+  source $ZSH_LOCATION/configs/inputs.zsh
+}

@@ -1,7 +1,7 @@
 export ZSH_LOCATION="$HOME/.zsh"
 export ZSH_EVALCACHE_DIR="/tmp/.zsh-evalcache"
 
-local benchmark=true
+local benchmark=false
 
 if [[ $benchmark = true ]]; then
   zmodload zsh/zprof
@@ -26,11 +26,12 @@ fi
 
 _zsh_load_globals
 _zsh_load_zim
+_zsh_load_configs
 
 # Function definitions need to come before starting the worker
 async_start_worker general_worker
 
-for f in ${functions[@]}; do
+for f in ${confunctions[@]}; do
   async_job general_worker $f
 done
 

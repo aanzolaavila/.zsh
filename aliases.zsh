@@ -7,6 +7,7 @@ function _zsh_load_aliases() {
   alias zconf="nvim ~/.zshrc"
   alias notify='terminal-notifier -title "Terminal" -message'
   alias notifySound='tput bel; terminal-notifier -title "Terminal" -message'
+  alias cl="clear"
 
   # bat
   alias cat="bat"

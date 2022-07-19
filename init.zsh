@@ -28,6 +28,7 @@ fi
 _zsh_load_globals
 _zsh_load_zim
 _zsh_load_configs
+_zsh_load_secrets
 
 # Function definitions need to come before starting the worker
 async_start_worker general_worker

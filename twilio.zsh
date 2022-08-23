@@ -7,4 +7,4 @@ function _zsh_load_twilio(){
   source $ZSH_LOCATION/twilio/secrets.zsh
 }
 
-confunctions+=_zsh_load_twilio
+deferfunctions+=_zsh_load_twilio

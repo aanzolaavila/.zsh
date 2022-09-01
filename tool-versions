@@ -1,10 +1,10 @@
-awscli 2.7.21
+awscli 2.7.28
 maven 3.8.6
-terraform 1.2.6
+terraform 1.2.8
 golang 1.19
-neovim 0.7.0
-nodejs 18.4.0
+neovim stable
+nodejs lts
 cmake 3.24.0
 make 4.3
 websocat 1.9.0
-conan 1.51.0
+conan 1.52.0

@@ -2,6 +2,11 @@ function _zsh_load_configs() {
   # Custom scripts
   export PATH="$HOME/.zsh/scripts:$PATH"
 
+  # Rust
+  if [ -d "$HOME/.cargo/bin" ]; then
+    export PATH="$HOME/.cargo/bin:$PATH"
+  fi
+
   # OpenSSL workaround
   export PATH="/usr/local/opt/openssl@1.1/bin:$PATH"
   export LDFLAGS="-L/usr/local/opt/openssl@1.1/lib"

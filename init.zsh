@@ -31,7 +31,7 @@ _zsh_load_configs
 _zsh_load_secrets
 
 # Function definitions need to come before starting the worker
-async_start_worker general_worker
+async_start_worker general_worker -n
 
 for f in ${confunctions[@]}; do
   async_job general_worker $f

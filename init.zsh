@@ -18,7 +18,7 @@ source $ZSH_LOCATION/configs.zsh
 source $ZSH_LOCATION/secrets.zsh
 source $ZSH_LOCATION/aliases.zsh
 
-# Am I in my work?
+# Am I at work?
 if [[ -d "$HOME/code/owl" ]]; then
   source $ZSH_LOCATION/twilio.zsh
 fi

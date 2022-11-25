@@ -17,11 +17,8 @@ source $ZSH_LOCATION/neovim.zsh
 source $ZSH_LOCATION/configs.zsh
 source $ZSH_LOCATION/secrets.zsh
 source $ZSH_LOCATION/aliases.zsh
+source $ZSH_LOCATION/work.zsh
 
-# Am I at work?
-if [[ -d "$HOME/code/owl" ]]; then
-  source $ZSH_LOCATION/twilio.zsh
-fi
 
 # ----- Execution -----
 

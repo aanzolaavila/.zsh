@@ -5,7 +5,7 @@ function load_secret() {
   if [[ -f "$location" ]]; then
     export $name="$(cat $location)"
   else
-    echo "Could not load secret $name"
+    echo "Could not load secret $name: $location not found"
   fi
 }
 
@@ -26,5 +26,5 @@ function _zsh_load_secrets() {
 
   # Mercado libre personal
   load_secret MELI_APP_ID "$secrets_dir/MercadoLibre/appid"
-  load_secret MELI_SECRET_KEY "$secrets_dir/MercadoLibre/secretkey)"
+  load_secret MELI_SECRET_KEY "$secrets_dir/MercadoLibre/secretkey"
 }

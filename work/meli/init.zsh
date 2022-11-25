@@ -1,6 +1,4 @@
 function _zsh_load_meli(){
-  echo "Mercado Libre"
-
   local mlmail="ceac0274-edc8-43b7-a3df-af4100ff5e2e"
   local mladmin="2ef40c52-304e-4cea-bc2c-af4700f5fffb"
 

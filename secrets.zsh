@@ -10,12 +10,21 @@ function load_secret() {
 }
 
 function _zsh_load_secrets() {
-  load_secret TODOIST_API_KEY "$HOME/.secrets/Todoist/api"
-  export TOSHL_SECRETS_LOCATION="${HOME}/.secrets/toshl/email-sync"
+  # ensure all secrets are protected
+  local secrets_dir="$HOME/.secrets"
+  mkdir -p $secrets_dir
+  chmod 700 $secrets_dir
+  find $secrets_dir -type d -exec chmod 700 {} \;
+  find $secrets_dir -type f -exec chmod 600 {} \;
+
+  # loading secrets
+
+  load_secret BW_SESSION "$secrets_dir/bitwarden/session"
+
+  load_secret TODOIST_API_KEY "$secrets_dir/Todoist/api"
+  export TOSHL_SECRETS_LOCATION="$secrets_dir/toshl/email-sync"
 
   # Mercado libre personal
-  load_secret MELI_APP_ID "$HOME/.secrets/MercadoLibre/appid"
-  load_secret MELI_SECRET_KEY "$HOME/.secrets/MercadoLibre/secretkey)"
-
-  load_secret BW_SESSION "$HOME/.secrets/bitwarden/session"
+  load_secret MELI_APP_ID "$secrets_dir/MercadoLibre/appid"
+  load_secret MELI_SECRET_KEY "$secrets_dir/MercadoLibre/secretkey)"
 }

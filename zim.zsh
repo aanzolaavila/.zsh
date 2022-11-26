@@ -1,6 +1,9 @@
 export ZIM_HOME="$HOME/.cache/zim"
 
 function _zsh_load_zim(){
+  # Workaround for now
+  unset ZDOTDIR
+
   # Download zimfw plugin manager if missing.
   if [[ ! -e ${ZIM_HOME}/zimfw.zsh ]]; then
     curl -fsSL --create-dirs -o ${ZIM_HOME}/zimfw.zsh \

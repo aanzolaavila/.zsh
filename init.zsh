@@ -28,16 +28,18 @@ _zsh_load_configs
 _zsh_load_secrets
 
 # Function definitions need to come before starting the worker
-# async_start_worker general_worker -n
+async_start_worker general_worker -n
 
 for f in ${confunctions[@]}; do
-  # async_job general_worker $f
-  $f
+  async_job general_worker $f
+  # $f
 done
 
 for f in ${deferfunctions[@]}; do
   $f
 done
+
+eval "$(cat $TMP_PATH)"
 
 # Cleanup PATH
 # Taken from https://www.linuxjournal.com/content/removing-duplicate-path-entries

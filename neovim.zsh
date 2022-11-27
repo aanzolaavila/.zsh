@@ -1,17 +1,3 @@
-# TODO: This should be in neovim config itself
-function _zsh_install_plug_in_neovim() {
-  local vim_dir="$HOME/.vim"
-  if [[ ! -d $vim_dir ]]; then
-    git clone git@github.com:aanzolaavila/.vim.git $HOME/.vim
-  fi
-
-  mkdir -p "$vim_dir/autoload"
-  if [[ ! -f "$vim_dir/autoload/plug.vim" ]]; then
-    wget https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim -O autoload/plug.vim
-    nvim +PlugInstall +qall
-  fi
-}
-
 function _zsh_load_neovim() {
   export PATH="$PATH:$HOME/.local/bin"
 
@@ -26,5 +12,4 @@ function _zsh_load_neovim() {
   PERL_MM_OPT="INSTALL_BASE=$HOME/perl5"; export PERL_MM_OPT;
 }
 
-confunctions+=_zsh_install_plug_in_neovim
 confunctions+=_zsh_load_neovim

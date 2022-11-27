@@ -4,6 +4,6 @@ if [[ -d "$HOME/code/owl" ]]; then
 fi
 
 # Am I at Mercado Libre?
-if [[ -f "$HOME/meli.lock" ]]; then
+if [[ ! -z ${AT_MELI} ]]; then
   source $ZSH_LOCATION/work/meli/init.zsh
 fi

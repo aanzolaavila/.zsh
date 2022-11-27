@@ -40,6 +40,7 @@ for f in ${deferfunctions[@]}; do
 done
 
 eval "$(cat $TMP_PATH)"
+rm $TMP_PATH
 
 # Cleanup PATH
 # Taken from https://www.linuxjournal.com/content/removing-duplicate-path-entries

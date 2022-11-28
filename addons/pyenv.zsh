@@ -1,4 +1,3 @@
-export PYENV_ROOT="$HOME/.pyenv"
 add_path "$PYENV_ROOT/bin:${PATH}"
 
 function _zsh_load_pyenv() {

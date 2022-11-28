@@ -9,6 +9,10 @@ fi
 declare -a confunctions
 declare -a deferfunctions
 
+# ensure that these arrays are empty, useful when doing 'source ~/.zshrc'
+confunctions=()
+deferfunctions=()
+
 source $ZSH_LOCATION/globals.zsh
 source $ZSH_LOCATION/zim.zsh
 source $ZSH_LOCATION/addons.zsh
@@ -30,8 +34,20 @@ _zsh_load_secrets
 # Function definitions need to come before starting the worker
 async_start_worker general_worker -u -n
 
+function worker_callback() {
+ local job_name=$1
+ local return_code=$2
+ local result=$3
+ local execution_time=$4
+ local error_result=$5
+ local has_next_result=$6
+
+ printf "name: %s, return_code: %s, time: %s\n" "$job_name" "$return_code" "$execution_time"
+ printf "has_next_result: %s\n" "$has_next_result"
+ printf "result: %s\n" "$result"
+}
+
 for f in ${confunctions[@]}; do
-  echo "$f"
   async_job general_worker $f
   # $f
 done
@@ -53,16 +69,4 @@ if [[ $benchmark = true ]]; then
   zprof
 fi
 
-function worker_callback() {
- local job_name=$1
- local return_code=$2
- local result=$3
- local execution_time=$4
- local error_result=$5
- local has_next_result=$6
-
- printf "name: %s, return_code: %s, time: %s\n" "$job_name" "$return_code" "$execution_time"
- printf "has_next_result: %s\n" "$has_next_result"
-}
-
-async_process_results general_worker worker_callback
+# async_process_results general_worker worker_callback

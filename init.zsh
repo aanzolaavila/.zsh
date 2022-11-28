@@ -1,4 +1,3 @@
-export ZSH_LOCATION="$HOME/.zsh"
 export ZSH_EVALCACHE_DIR="/tmp/.zsh-evalcache"
 
 local benchmark=false
@@ -17,6 +16,7 @@ source $ZSH_LOCATION/neovim.zsh
 source $ZSH_LOCATION/configs.zsh
 source $ZSH_LOCATION/secrets.zsh
 source $ZSH_LOCATION/aliases.zsh
+source $ZSH_LOCATION/helpers.zsh
 source $ZSH_LOCATION/work.zsh
 
 
@@ -28,9 +28,10 @@ _zsh_load_configs
 _zsh_load_secrets
 
 # Function definitions need to come before starting the worker
-async_start_worker general_worker -n
+async_start_worker general_worker -u -n
 
 for f in ${confunctions[@]}; do
+  echo "$f"
   async_job general_worker $f
   # $f
 done
@@ -51,3 +52,17 @@ source $ZSH_LOCATION/tmux.zsh
 if [[ $benchmark = true ]]; then
   zprof
 fi
+
+function worker_callback() {
+ local job_name=$1
+ local return_code=$2
+ local result=$3
+ local execution_time=$4
+ local error_result=$5
+ local has_next_result=$6
+
+ printf "name: %s, return_code: %s, time: %s\n" "$job_name" "$return_code" "$execution_time"
+ printf "has_next_result: %s\n" "$has_next_result"
+}
+
+async_process_results general_worker worker_callback

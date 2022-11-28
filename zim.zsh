@@ -9,6 +9,7 @@ function _zsh_load_zim(){
 
   # Install missing modules, and update ${ZIM_HOME}/init.zsh if missing or outdated.
   if [[ ! ${ZIM_HOME}/init.zsh -nt ${ZDOTDIR:-${HOME}}/.zimrc ]]; then
+    echo "Refreshing zim cache"
     source ${ZIM_HOME}/zimfw.zsh init -q
   fi
 

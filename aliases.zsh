@@ -1,6 +1,5 @@
 function _zsh_load_aliases() {
   alias v="nvim"
-  alias vim="nvim"
   alias notify='terminal-notifier -title "Terminal" -message'
   alias notifySound='tput bel; terminal-notifier -title "Terminal" -message'
   alias cl="clear"

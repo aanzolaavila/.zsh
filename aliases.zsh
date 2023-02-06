@@ -18,11 +18,11 @@ function _zsh_load_aliases() {
 
   alias work="timer 45m && terminal-notifier -message 'Pomodoro'\
         -title 'Work Timer is up! Take a Break 😊'\
-        -sound Crystal"
+        -sound default -ignoreDnD"
 
   alias rest="timer 15m && terminal-notifier -message 'Pomodoro'\
         -title 'Break is over! Get back to work 😬'\
-        -sound Crystal"
+        -sound default -ignoreDnD"
 
   # From Oh My Zsh: https://github.com/ohmyzsh/ohmyzsh/blob/e86c6f5e7fc9f024a427e2870ab70644b5454725/lib/directories.zsh
   alias -g ...='../..'

@@ -1,3 +1,7 @@
+function _zsh_zim_configs(){
+  zstyle ':zim:ssh' ids 'id_ed25519_meli'
+}
+
 function _zsh_load_zim(){
   # Workaround for now
   unset ZDOTDIR
@@ -12,6 +16,8 @@ function _zsh_load_zim(){
     echo "Refreshing zim cache"
     source ${ZIM_HOME}/zimfw.zsh init -q
   fi
+
+  _zsh_zim_configs
 
   # Initialize modules.
   source ${ZIM_HOME}/init.zsh

@@ -14,6 +14,9 @@ function _zsh_load_meli(){
 
   alias matcherdb='mysql matcher --host=proxysql.master.meliseginf.com --port=6612 --user="$(dbuser)" --password="$(dbpass)"'
   alias hounddb='mysql houndv2 --host=proxysql.master.meliseginf.com --port=6612 --user="$(dbuser)" --password="$(dbpass)"'
+
+  # Go config for meli
+  export GOPRIVATE=github.com/mercadolibre
 }
 
 confunctions+=_zsh_sync_work_credentials

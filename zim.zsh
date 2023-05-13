@@ -1,5 +1,10 @@
 function _zsh_zim_configs(){
-  zstyle ':zim:ssh' ids 'id_ed25519_meli'
+  zstyle ':zim:ssh' ids 'id_ed25519' 'id_ed25519_meli'
+
+  zstyle ':zim:git-info' verbose yes
+
+  zstyle ':zim:duration-info' threshold 0.5
+  zstyle ':zim:duration-info' show-milliseconds yes
 }
 
 function _zsh_load_zim(){
@@ -17,8 +22,8 @@ function _zsh_load_zim(){
     source ${ZIM_HOME}/zimfw.zsh init -q
   fi
 
-  _zsh_zim_configs
-
   # Initialize modules.
   source ${ZIM_HOME}/init.zsh
+
+  _zsh_zim_configs
 }

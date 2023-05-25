@@ -1,5 +1,11 @@
 source $ZSH_LOCATION/work/meli/credentials.zsh
 
+function _docker_workaround() {
+  if ! which docker > /dev/null; then
+    brew link docker
+  fi
+}
+
 function _zsh_load_meli(){
   local mlmail="ceac0274-edc8-43b7-a3df-af4100ff5e2e"
   local mladmin="2ef40c52-304e-4cea-bc2c-af4700f5fffb"
@@ -20,4 +26,5 @@ function _zsh_load_meli(){
 }
 
 confunctions+=_zsh_sync_work_credentials
+confunctions+=_docker_workaround
 deferfunctions+=_zsh_load_meli

@@ -20,8 +20,9 @@ function _zsh_load_secrets() {
   # loading secrets
 
   load_secret BW_SESSION "$secrets_dir/bitwarden/session"
-
   load_secret TODOIST_API_KEY "$secrets_dir/Todoist/api"
+  load_secret OPENAI_API_KEY "$secrets_dir/openai/api"
+
   export TOSHL_SECRETS_LOCATION="$secrets_dir/toshl/email-sync"
 
   # Mercado libre personal

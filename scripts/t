@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+selected=$(fd --type d -H '.git$' ~/code ~/Documents | sed 's/\/.git\///' | fzf)
+
+if [[ -z "$selected" ]]; then
+  exit 0
+fi
+
+tat $selected

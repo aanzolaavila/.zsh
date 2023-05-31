@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+
+selected=$(tmux ls | cut -d: -f1 | fzf)
+
+if [[ -z "$selected" ]]; then
+  exit 0
+fi
+
+tat "$selected"

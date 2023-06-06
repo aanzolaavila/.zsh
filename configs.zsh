@@ -20,8 +20,6 @@ function _zsh_load_configs() {
   export LDFLAGS="$LDFLAGS -L/opt/homebrew/opt/llvm/lib"
   export CPPFLAGS="$CPPFLAGS -I/opt/homebrew/opt/llvm/include"
 
-  export TERM="xterm-256color"
-
   export GOPATH=$HOME/go
   add_path $PATH:$GOPATH/bin
   add_path $PATH:$HOME/.local/bin

@@ -56,6 +56,12 @@ for f in ${deferfunctions[@]}; do
   $f
 done
 
+if test -x "/usr/libexec/path_helper";  then
+  eval "$(/usr/libexec/path_helper)"
+fi
+
+export PATH="/opt/homebrew/bin:$PATH"
+
 eval "$(cat $TMP_PATH)"
 rm $TMP_PATH
 

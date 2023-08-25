@@ -24,7 +24,7 @@ function _zsh_load_meli(){
   alias colimastart="colima start --cpu 4 --memory 4 --mount-type 9p"
 
   # Go config for meli
-  export GOPRIVATE=github.com/mercadolibre
+  export GOPRIVATE="github.com/mercadolibre,github.com/melisource"
 }
 
 confunctions+=_zsh_sync_work_credentials

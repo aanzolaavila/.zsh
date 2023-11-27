@@ -20,6 +20,7 @@ function _zsh_load_meli(){
 
   alias matcherdb='mysql matcher --host=proxysql.master.meliseginf.com --port=6612 --user="$(dbuser)" --password="$(dbpass)"'
   alias hounddb='mysql houndv2 --host=proxysql.master.meliseginf.com --port=6612 --user="$(dbuser)" --password="$(dbpass)"'
+  alias cdscore='mysql cdscore --host=proxysql.master.meliseginf.com --port=6612 --user="$(dbuser)" --password="$(dbpass)"'
 
   alias colimastart="colima start --cpu 4 --memory 4 --mount-type 9p"
 

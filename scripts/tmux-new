@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-selected=$(fd --type d -H '.git$' ~/code ~/Documents | sed 's/\/.git\///' | fzf)
+selected=$(fd --type d -H '.git$' --no-ignore ~/code ~/Documents | sed 's/\/.git\///' | fzf)
 
 if [[ -z "$selected" ]]; then
   exit 0

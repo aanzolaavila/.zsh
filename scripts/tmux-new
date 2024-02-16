@@ -2,8 +2,8 @@
 
 selected=$(fd --type d -H '.git$' --no-ignore ~/code ~/Documents | sed 's/\/.git\///' | fzf)
 
-if [[ -z "$selected" ]]; then
+if [[ -z "${selected}" ]]; then
   exit 0
 fi
 
-tat "$selected"
+tat "${selected}"

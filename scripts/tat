@@ -2,35 +2,51 @@
 # based on ThePrimeagen's sessionizer https://github.com/ThePrimeagen/.dotfiles/blob/602019e902634188ab06ea31251c01c1a43d1621/bin/.local/scripts/tmux-sessionizer
 # and based on https://github.com/thoughtbot/dotfiles/blob/main/bin/tat
 
-if [[ $# -eq 0 ]]; then
-  selected="${PWD}"
-else
-  selected="${1}"
-fi
-
-session_name="$(basename "$selected" | tr . _)"
-
-not_in_tmux() {
-  [ -z "$TMUX" ]
+function not_in_tmux() {
+  [ -z "${TMUX}" ]
 }
 
-session_exists() {
-  tmux has-session -t "=$session_name"
+function session_exists() {
+  tmux has-session -t="${session_name}"
 }
 
-create_detached_session() {
-  (TMUX='' tmux new-session -Ad -s "$session_name" -c "$selected")
+function create_detached_session() {
+  local session_name="${1}"
+  local start_directory="${2}"
+  (TMUX='' tmux new-session -Ad -s "${session_name}" -c "${start_directory}")
 }
 
-create_if_needed_and_attach() {
+function create_if_needed_and_attach() {
+  local session_name="${1}"
+  local start_directory="${2}"
+
   if not_in_tmux; then
-    tmux new-session -As "$session_name" -c "$selected"
+    tmux new-session -s "${session_name}" -c "${start_directory}"
   else
     if ! session_exists; then
-      create_detached_session
+      create_detached_session "${session_name}" "${start_directory}"
     fi
-    tmux switch-client -t "$session_name"
+    tmux switch-client -t "${session_name}"
   fi
 }
 
-create_if_needed_and_attach
+# === START ===
+
+if [[ $# -eq 1 ]]; then
+  selected="${1}"
+fi
+
+if not_in_tmux; then
+  selected="${PWD}"
+fi
+
+if [[ -z ${selected} ]]; then
+  echo "ERROR: No selected directory"
+  exit 1
+fi
+
+session_name="$(basename "${selected}" | tr . _)"
+
+printf 'session: %s | selected: %s\n' "${session_name}" "${selected}"
+
+create_if_needed_and_attach "${session_name}" "${selected}"

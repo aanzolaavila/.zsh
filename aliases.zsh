@@ -1,5 +1,6 @@
 function _zsh_load_aliases() {
   _evalcache zoxide init --cmd cd zsh
+  _evalcache thefuck --alias
 
   alias v="nvim"
   alias notify='terminal-notifier -title "Terminal" -message'

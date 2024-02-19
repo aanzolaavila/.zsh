@@ -23,7 +23,6 @@ source $ZSH_LOCATION/aliases.zsh
 source $ZSH_LOCATION/helpers.zsh
 source $ZSH_LOCATION/work.zsh
 
-
 # ----- Execution -----
 
 _zsh_load_globals

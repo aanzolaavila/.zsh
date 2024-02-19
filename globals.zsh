@@ -10,4 +10,8 @@ function add_path() {
 function _zsh_load_globals() {
   export PURE_CHECK_SSH=false
   export EDITOR="nvim"
+
+  # Workaround while this is solved
+  # https://github.com/bitwarden/clients/issues/6689
+  export NODE_OPTIONS="--no-deprecation"
 }

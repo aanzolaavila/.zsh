@@ -1,0 +1,28 @@
+#!/bin/bash
+
+# Moves a random file from a wallpaper folder full of images and copies into the
+# WezTerm folder where it is stored with a given name
+
+wall_dir="${WALLPAPER_DIR:-$HOME/Pictures/Wallpapers}"
+dest_dir="${WEZTERM_DEST_DIR:-$HOME/.config/wezterm}"
+file_name="${WEZTERM_WALLPAPER_FILENAME:-background}"
+
+if ! [[ -d "${wall_dir}" ]]; then
+  echo "Wallpaper directory ${wall_dir} does not exist"
+  exit 1
+fi
+
+function get_random_file() {
+  local file="$(find ${wall_dir} -type f | shuf -n 1)"
+  echo "${file}"
+}
+
+function move_file_to_wezterm() {
+  local from="${1}"
+  local to="${dest_dir}"
+  cp -v "${from}" "${to}/${file_name}"
+}
+
+chosen_file=$(get_random_file)
+
+move_file_to_wezterm "${chosen_file}"

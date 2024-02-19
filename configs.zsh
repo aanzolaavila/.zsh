@@ -25,8 +25,13 @@ function _zsh_load_configs() {
   add_path $PATH:$HOME/.local/bin
   add_path $PATH:/Applications/MySQLWorkbench.app/Contents/MacOS
 
-  # Beautify man with bat
-  export MANPAGER="sh -c 'col -bx | bat -l man -p'"
+  if hash nvim 2>/dev/null; then
+    # use neovim as manpager
+    export MANPAGER="nvim +Man!"
+  else
+    # beautify man with bat
+    export MANPAGER="sh -c 'col -bx | bat -l man -p'"
+  fi
 
   bindkey '^[[A' history-substring-search-up
   bindkey '^[[B' history-substring-search-down

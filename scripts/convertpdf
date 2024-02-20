@@ -1,0 +1,85 @@
+#!/bin/bash
+
+set -e
+
+function usage() {
+    echo "Performs different operations to different PDF files"
+    echo ""
+    echo "Usage: $0 [compress|rasterize|merge|totext|convert] pdf_file [pdf_file ...] output_file"
+    exit 1
+}
+
+function rasterize_pdf() {
+    local input_file="${1}"
+    local output_file="${2}"
+
+    gs -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -dPDFSETTINGS=/default -dNOPAUSE -dQUIET -dBATCH -dDetectDuplicateImages -dCompressFonts=true -r150 -sOutputFile="${output_file}" "${input_file}"
+}
+
+function compress_pdf() {
+    local input_file="${1}"
+    local output_file="${2}"
+
+    gs -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -dPDFSETTINGS=/ebook -dNOPAUSE -dQUIET -dBATCH -sOutputFile="${output_file}" "${input_file}"
+}
+
+function merge_pdf() {
+    local first="${1}"
+    local second="${2}"
+    local output="${3}"
+
+    pdfunite "${first}" "${second}" "${output}"
+}
+
+function totext_pdf() {
+    local input="${1}"
+    local output="${2}"
+
+    pdftotext "${input}" "${output}"
+}
+
+function convert_pdf() {
+    local format="${1}"
+    local input="${2}"
+    local output="${3}"
+
+    pdftoppm -"${format}" "${input}" "${output}"
+}
+
+# === START ===
+
+if ! hash gs 2>/dev/null; then
+    echo "ERROR: GhostScript is not installed"
+    exit 1
+fi
+
+hash gs 2>/dev/null || { echo "ERROR: Ghostscript is not installed"; exit 1; }
+hash pdfunite 2>/dev/null || { echo "ERROR: pdfunite is not installed"; exit 1; }
+hash pdftotext 2>/dev/null || { echo "ERROR: pdftotext is not installed"; exit 1; }
+hash pdftoppm 2>/dev/null || { echo "ERROR: pdftoppm is not installed"; exit 1; }
+hash qpdf 2>/dev/null || { echo "ERROR: qpdf is not installed"; exit 1; }
+hash pdfimages 2>/dev/null || { echo "ERROR: pdfimages is not installed"; exit 1; }
+
+action="${1}"
+
+case $action in
+  compress)
+      compress_pdf "${2}" "${3}"
+    ;;
+  rasterize)
+      rasterize_pdf "${2}" "${3}"
+    ;;
+  merge)
+      merge_pdf "${2}" "${3}" "${4}"
+    ;;
+  totext)
+      totext_pdf "${2}" "${3}"
+    ;;
+  convert)
+      convert_pdf "${2}" "${3}" "${4}"
+    ;;
+  *)
+    echo "Invalid action."
+    usage
+    ;;
+esac

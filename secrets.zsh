@@ -24,8 +24,4 @@ function _zsh_load_secrets() {
   load_secret OPENAI_API_KEY "$secrets_dir/openai/api"
 
   export TOSHL_SECRETS_LOCATION="$secrets_dir/toshl/email-sync"
-
-  # Mercado libre personal
-  load_secret MELI_APP_ID "$secrets_dir/MercadoLibre/appid"
-  load_secret MELI_SECRET_KEY "$secrets_dir/MercadoLibre/secretkey"
 }

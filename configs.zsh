@@ -23,7 +23,7 @@ function _zsh_load_configs() {
   export GOPATH=$HOME/go
   add_path $PATH:$GOPATH/bin
   add_path $PATH:$HOME/.local/bin
-  add_path $PATH:/Applications/MySQLWorkbench.app/Contents/MacOS
+  is_darwin && add_path $PATH:/Applications/MySQLWorkbench.app/Contents/MacOS
 
   if hash nvim 2>/dev/null; then
     # use neovim as manpager
@@ -37,4 +37,8 @@ function _zsh_load_configs() {
   bindkey '^[[B' history-substring-search-down
 
   source $ZSH_LOCATION/configs/inputs.zsh
+
+  if is_linux; then
+    test -d /home/linuxbrew/.linuxbrew && _evalcache /home/linuxbrew/.linuxbrew/bin/brew shellenv
+  fi
 }

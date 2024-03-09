@@ -26,6 +26,10 @@ function _zsh_load_meli(){
 
   # Go config for meli
   export GOPRIVATE="github.com/mercadolibre,github.com/melisource"
+
+  # Mercado libre personal
+  load_secret MELI_APP_ID "$secrets_dir/MercadoLibre/appid"
+  load_secret MELI_SECRET_KEY "$secrets_dir/MercadoLibre/secretkey"
 }
 
 confunctions+=_zsh_sync_work_credentials

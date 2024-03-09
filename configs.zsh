@@ -1,3 +1,14 @@
+function _zsh_load_linux_configs() {
+  # If Homebrew is installed
+  test -d /home/linuxbrew/.linuxbrew && _evalcache /home/linuxbrew/.linuxbrew/bin/brew shellenv
+
+  # Change Caps Lock to be Escape key
+  setxkbmap -option caps:swapescape
+
+  # Change key repetitions
+  xset r rate 150 45
+}
+
 function _zsh_load_configs() {
   # Custom scripts
   add_path "$HOME/.zsh/scripts:$PATH"
@@ -38,7 +49,5 @@ function _zsh_load_configs() {
 
   source $ZSH_LOCATION/configs/inputs.zsh
 
-  if is_linux; then
-    test -d /home/linuxbrew/.linuxbrew && _evalcache /home/linuxbrew/.linuxbrew/bin/brew shellenv
-  fi
+  is_linux && _zsh_load_linux_configs
 }

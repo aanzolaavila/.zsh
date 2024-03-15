@@ -2,17 +2,28 @@ function _zsh_load_aliases() {
   _evalcache zoxide init --cmd cd zsh
   _evalcache thefuck --alias
 
-  alias v="nvim"
-  alias notify='terminal-notifier -title "Terminal" -message'
-  alias notifySound='tput bel; terminal-notifier -title "Terminal" -message'
-  alias cl="clear"
-  alias hg="eval \$(history 1 | cut -c 8- | fzf)"
+  # Notifications
+  local os="$(uname -s)"
+  case "${os}" in
+    Linux*) {
+    alias notify='notify-send -u low'
+    alias notifySound='notify-send -u bell'
+    } ;;
+  Darwin*) {
+    alias notify='terminal-notifier -title "Terminal" -message'
+    alias notifySound='tput bel; terminal-notifier -title "Terminal" -message'
+  } ;;
+  esac
+
+  command -v fzf >/dev/null && alias hg="eval \$(history 1 | cut -c 8- | sort | uniq | fzf)"
 
   # bat
-  alias cat="bat"
-  alias cata="bat -A"
+  command -v bat >/dev/null && { alias cat="bat" ; alias cata="bat -A" }
 
+  alias v="nvim"
+  alias cl="clear"
   alias la="ls -al"
+  alias lg="lazygit"
 
   alias zettle="date +%Y%m%d%H%M"
 

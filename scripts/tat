@@ -22,7 +22,7 @@ function create_if_needed_and_attach() {
   local start_directory="${2}"
 
   if not_in_tmux; then
-    tmux new-session -s "${session_name}" -c "${start_directory}"
+    tmux new-session -s "${session_name}" -c "${start_directory}" || tmux attach -t "${session_name}"
   else
     if ! session_exists "${session_name}"; then
       create_detached_session "${session_name}" "${start_directory}"

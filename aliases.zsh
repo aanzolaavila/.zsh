@@ -7,7 +7,7 @@ function _zsh_load_aliases() {
   case "${os}" in
     Linux*) {
     alias notify='notify-send -u low'
-    alias notifySound='notify-send -u bell'
+    alias notifySound='notify-send -u critical ; echo -e "\a"'
     } ;;
   Darwin*) {
     alias notify='terminal-notifier -title "Terminal" -message'

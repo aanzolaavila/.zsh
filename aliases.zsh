@@ -15,7 +15,7 @@ function _zsh_load_aliases() {
   } ;;
   esac
 
-  command -v fzf >/dev/null && alias hg="eval \$(history 1 | cut -c 8- | sort | uniq | fzf)"
+  command -v fzf >/dev/null && alias hg="eval \$(history 1 | cut -c 8- | awk '!seen[\$0]++' /dev/stdin | fzf)"
 
   # bat
   command -v bat >/dev/null && { alias cat="bat" ; alias cata="bat -A" }

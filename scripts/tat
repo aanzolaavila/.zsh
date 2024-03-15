@@ -7,6 +7,7 @@ function not_in_tmux() {
 }
 
 function session_exists() {
+  local session_name="${1}"
   tmux has-session -t="${session_name}"
 }
 
@@ -23,7 +24,7 @@ function create_if_needed_and_attach() {
   if not_in_tmux; then
     tmux new-session -s "${session_name}" -c "${start_directory}"
   else
-    if ! session_exists; then
+    if ! session_exists "${session_name}"; then
       create_detached_session "${session_name}" "${start_directory}"
     fi
     tmux switch-client -t "${session_name}"

@@ -12,6 +12,7 @@ function load_secret() {
 function _zsh_load_secrets() {
   # ensure all secrets are protected
   local secrets_dir="$HOME/.secrets"
+  export SECRETS_DIR="${secrets_dir}"
   mkdir -p $secrets_dir
   chmod 700 $secrets_dir
   find $secrets_dir -type d -exec chmod 700 {} \;

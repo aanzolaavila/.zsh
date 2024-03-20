@@ -7,3 +7,7 @@ fi
 if [[ ! -z ${AT_MELI} ]]; then
   source $ZSH_LOCATION/work/meli/init.zsh
 fi
+
+if [[ ! -z ${AT_WORK} ]]; then
+  source $ZSH_LOCATION/work/ekumen/init.zsh
+fi

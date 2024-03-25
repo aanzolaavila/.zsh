@@ -6,19 +6,25 @@ function _zsh_load_aliases() {
   local os="$(uname -s)"
   case "${os}" in
     Linux*) {
-    alias notify='notify-send -u low'
-    alias notify-sound='echo -e "\a"; notify-send -u critical'
+      alias notify='notify-send -u low'
+      alias notify-sound='echo -e "\a"; notify-send -u critical'
     } ;;
-  Darwin*) {
-    alias notify='terminal-notifier -title "Terminal" -message'
-    alias notify-sound='tput bel; terminal-notifier -title "Terminal" -message'
-  } ;;
+    Darwin*) {
+      alias notify='terminal-notifier -title "Terminal" -message'
+      alias notify-sound='tput bel; terminal-notifier -title "Terminal" -message'
+    } ;;
   esac
 
-  command -v fzf >/dev/null && alias hg="eval \$(history 1 | cut -c 8- | awk '!seen[\$0]++' /dev/stdin | fzf)"
+  command -v fzf >/dev/null && {
+    alias hg="eval \$(history 1 | cut -c 8- | awk '!seen[\$0]++' /dev/stdin | fzf)"
+    command -v fd >/dev/null && alias fcd="cd \$(fd --type d | fzf || echo '.')"
+  }
 
   # bat
-  command -v bat >/dev/null && { alias cat="bat" ; alias cata="bat -A" }
+  command -v bat >/dev/null && {
+    alias cat="bat"
+    alias cata="bat -A"
+  }
 
   alias v="nvim"
   alias cl="clear"

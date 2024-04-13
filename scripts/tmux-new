@@ -6,4 +6,6 @@ if [[ -z "${selected}" ]]; then
   exit 0
 fi
 
+printf "Selected directory: %s\n" "${selected}"
+
 tat "${selected}"

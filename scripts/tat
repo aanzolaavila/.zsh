@@ -33,12 +33,12 @@ function create_if_needed_and_attach() {
 
 # === START ===
 
-if [[ $# -eq 1 ]]; then
-  selected="${1}"
-fi
-
 if not_in_tmux; then
   selected="${PWD}"
+fi
+
+if [[ $# -eq 1 ]]; then
+  selected="${1}"
 fi
 
 if [[ -z ${selected} ]]; then

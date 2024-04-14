@@ -1,0 +1,37 @@
+#!/bin/bash
+
+# Moves a random file from a wallpaper folder full of images and copies into the
+# home folder where it is stored with a given name
+
+wall_dir="${WALLPAPER_DIR:-$HOME/Pictures/Wallpapers}"
+dest_dir="${TERM_DEST_DIR:-$HOME}"
+file_name="${TERM_WALLPAPER_FILENAME:-background}"
+
+if ! [[ -d "${wall_dir}" ]]; then
+  echo "Wallpaper directory ${wall_dir} does not exist"
+  exit 1
+fi
+
+function convert_image_to_png() {
+  local from="${1}"
+  local to="${from}.png"
+  convert "${from}" "${to}"
+}
+
+function get_random_file() {
+  local file
+  file="$(find "${wall_dir}" -type f | shuf -n 1)"
+  echo "${file}"
+}
+
+function move_file_to_dest() {
+  local from="${1}"
+  local to="${dest_dir}/${file_name}"
+  cp -v "${from}" "${to}"
+}
+
+chosen_file=$(get_random_file)
+
+move_file_to_dest "${chosen_file}"
+convert_image_to_png "${dest_dir}/${file_name}"
+rm "${dest_dir}/${file_name}"

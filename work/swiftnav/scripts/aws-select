@@ -1,0 +1,93 @@
+#!/usr/bin/env bash
+
+SAML2AWS_BINARY=$(which saml2aws)
+
+print_usage() {
+  printf "Usage: $(basename ${0}) ${RED}:profile_name${NC}\n\n"
+  printf "Available profiles: ${RED}${profiles}${NC}\n"
+}
+
+run_saml_cmd() {
+  PROFILE=$1
+  ROLE=$2
+  shift; shift; shift
+  $SAML2AWS_BINARY login --skip-prompt --profile $PROFILE --role=$ROLE
+  if [[ -n "${@}" ]]; then
+    $SAML2AWS_BINARY exec --profile $PROFILE ${@}
+  fi
+  exit $?
+}
+
+RED='\033[0;31m'
+NC='\033[0m' # No Color
+
+profiles=("build-admin build-dev build-power-user flex-admin flex-dev flex-orion-admin prod-orion-admin prod security-admin security-power-user bi it sandbox root-admin root-dev terraform-sandbox terraform-sandbox-admin vendors-admin")
+help_flags=("-h --help help -help")
+
+if [[ ! " ${profiles[@]} " =~ " ${1} " ]] || [[ " ${help_flags[@]} " =~ " ${1} " ]]; then
+  print_usage
+  exit 1
+fi
+if [ ! -x $SAML2AWS_BINARY ]; then
+  printf "${RED}saml2aws${NC} is not installed\n"
+  echo "Refer to the installation instructions for $OSTYPE"
+  echo "https://github.com/Versent/saml2aws#install"
+  exit 1
+fi
+
+case $1 in
+  build-admin)
+    run_saml_cmd $1 arn:aws:iam::571934480752:role/SSO-Build-Admin $@
+    ;;
+  build-dev)
+    run_saml_cmd $1 arn:aws:iam::571934480752:role/SSO-Build-Developer $@
+    ;;
+  build-power-user)
+    run_saml_cmd $1 arn:aws:iam::571934480752:role/SSO-Build-PowerUser $@
+    ;;
+  flex-admin)
+    run_saml_cmd $1 arn:aws:iam::494535174283:role/SSO-Flex-Admin $@
+    ;;
+  flex-orion-admin)
+    run_saml_cmd $1 arn:aws:iam::494535174283:role/SSO-Flex-Orion-Admin $@
+    ;;
+  flex-dev)
+    run_saml_cmd $1 arn:aws:iam::494535174283:role/SSO-Flex-Developer $@
+    ;;
+  prod-orion-admin)
+    run_saml_cmd $1 arn:aws:iam::675498590832:role/SSO-Prod-Orion-Admin $@
+    ;;
+  prod)
+    run_saml_cmd $1 arn:aws:iam::675498590832:role/SSOProduction $@
+    ;;
+  security-admin)
+    run_saml_cmd $1 arn:aws:iam::761727872165:role/SSO-Security-Admin $@
+    ;;
+  security-power-user)
+    run_saml_cmd $1 arn:aws:iam::761727872165:role/SSO-Security-PowerUser $@
+    ;;
+  bi)
+    run_saml_cmd $1 arn:aws:iam::962511972390:role/SSO-BI-Admin $@
+    ;;
+  it)
+    run_saml_cmd $1 arn:aws:iam::232497573669:role/SSO-IT-Full-Admin $@
+    ;;
+  sandbox)
+    run_saml_cmd $1 arn:aws:iam::830646287051:role/SSO-Sandbox-Admin $@
+    ;;
+  root-admin)
+    run_saml_cmd $1 arn:aws:iam::017940900017:role/SSO-Admin $@
+    ;;
+  root-dev)
+    run_saml_cmd $1 arn:aws:iam::017940900017:role/SSO-Developer $@
+    ;;
+  terraform-sandbox)
+    run_saml_cmd $1 arn:aws:iam::830646287051:role/SSO-Terraform-Sandbox $@
+    ;;
+  terraform-sandbox-admin)
+    run_saml_cmd $1 arn:aws:iam::830646287051:role/SSO-Sandbox-Admin $@
+    ;;
+  vendors-admin)
+    run_saml_cmd $1 arn:aws:iam::307428629841:role/SSO-Vendors-Admin $@
+    ;;
+esac

@@ -26,6 +26,10 @@ function _zsh_load_aliases() {
     alias cata="bat -A"
   }
 
+  command -v terragrunt >/dev/null && {
+    alias tg="terragrunt"
+  }
+
   alias v="nvim"
   alias cl="clear"
   alias la="ls -al"

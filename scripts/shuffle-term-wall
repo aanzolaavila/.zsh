@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 # Moves a random file from a wallpaper folder full of images and copies into the
 # home folder where it is stored with a given name
 
@@ -15,7 +17,9 @@ fi
 function convert_image_to_png() {
   local from="${1}"
   local to="${from}.png"
-  convert "${from}" "${to}"
+  # convert "${from}" "${to}"
+  convert "${from}" -alpha off \( +clone -fill black -colorize 50% \) -compose overlay -composite "${to}"
+  # convert "${from}" -background black -alpha background -channel a -evaluate multiply 1.0 +channel "${to}"
 }
 
 function get_random_file() {

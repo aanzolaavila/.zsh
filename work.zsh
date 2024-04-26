@@ -9,5 +9,5 @@ if [[ ! -z ${AT_MELI} ]]; then
 fi
 
 if [[ ! -z ${AT_WORK} ]]; then
-  source $ZSH_LOCATION/work/ekumen/init.zsh
+  source $ZSH_LOCATION/work/swiftnav/init.zsh
 fi

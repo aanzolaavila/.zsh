@@ -30,6 +30,10 @@ function _zsh_load_aliases() {
     alias tg="terragrunt"
   }
 
+  if command -v ngrok &>/dev/null; then
+    eval "$(ngrok completion)"
+  fi
+
   alias v="nvim"
   alias cl="clear"
   alias la="ls -al"

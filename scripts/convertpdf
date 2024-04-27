@@ -48,11 +48,6 @@ function convert_pdf() {
 
 # === START ===
 
-if ! hash gs 2>/dev/null; then
-    echo "ERROR: GhostScript is not installed"
-    exit 1
-fi
-
 hash gs 2>/dev/null || { echo "ERROR: Ghostscript is not installed"; exit 1; }
 hash pdfunite 2>/dev/null || { echo "ERROR: pdfunite is not installed"; exit 1; }
 hash pdftotext 2>/dev/null || { echo "ERROR: pdftotext is not installed"; exit 1; }

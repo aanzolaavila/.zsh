@@ -8,10 +8,26 @@ print_usage() {
 }
 
 run_saml_cmd() {
+  local swift_bw_object="9d475d59-0384-405e-9829-b1330122d501"
+
+  local swift_credentials="$(bw get item $swift_bw_object)"
+  local swift_username="$(echo $swift_credentials | jq -r '.login.username')"
+  local swift_password="$(echo $swift_credentials | jq -r '.login.password')"
+  local swift_totp="$(bw get totp $swift_bw_object)"
+
   PROFILE=$1
   ROLE=$2
   shift; shift; shift
-  $SAML2AWS_BINARY login --skip-prompt --profile $PROFILE --role=$ROLE
+  $SAML2AWS_BINARY login \
+    --profile $PROFILE \
+    --role=$ROLE \
+    --disable-keychain \
+    --skip-prompt \
+    --username=${swift_username} \
+    --password=${swift_password} \
+    --mfa=TOTP \
+    --mfa-token=${swift_totp}
+
   if [[ -n "${@}" ]]; then
     $SAML2AWS_BINARY exec --profile $PROFILE ${@}
   fi

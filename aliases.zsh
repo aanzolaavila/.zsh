@@ -16,7 +16,7 @@ function _zsh_load_aliases() {
   esac
 
   command -v fzf >/dev/null && {
-    alias hg="eval \$(history 1 | cut -c 8- | awk '!seen[\$0]++' /dev/stdin | fzf)"
+    alias hg="_cmd=\$(history 1 | cut -c 8- | awk '!seen[\$0]++' /dev/stdin | fzf); echo '>>' \${_cmd}; eval \${_cmd}"
     command -v fd >/dev/null && alias fcd="cd \$(fd --type d | fzf || echo '.')"
   }
 

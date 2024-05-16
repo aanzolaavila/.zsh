@@ -33,5 +33,9 @@ function update_prod_k8s_context() {
   update_k8s_context "${profile}" "ap-northeast-1" "ap-prod-1"
 }
 
+current_ctx=$(kubectl config current-context)
+
 update_dev_k8s_context
 update_prod_k8s_context
+
+kubectl config use-context "${current_ctx}"

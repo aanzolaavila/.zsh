@@ -50,4 +50,8 @@ function _zsh_load_configs() {
   source $ZSH_LOCATION/configs/inputs.zsh
 
   is_linux && _zsh_load_linux_configs
+
+  # Python config
+  export PYTHONUSERBASE="$HOME/.local/python"
+  mkdir -p $PYTHONUSERBASE
 }

@@ -5,14 +5,14 @@ function _zsh_load_aliases() {
   # Notifications
   local os="$(uname -s)"
   case "${os}" in
-    Linux*) {
-      alias notify='notify-send -u low'
-      alias notify-sound='echo -e "\a"; notify-send -u critical'
-    } ;;
-    Darwin*) {
-      alias notify='terminal-notifier -title "Terminal" -message'
-      alias notify-sound='tput bel; terminal-notifier -title "Terminal" -message'
-    } ;;
+  Linux*) {
+    alias notify='notify-send -u low'
+    alias notify-sound='echo -e "\a"; notify-send -u critical'
+  } ;;
+  Darwin*) {
+    alias notify='terminal-notifier -title "Terminal" -message'
+    alias notify-sound='tput bel; terminal-notifier -title "Terminal" -message'
+  } ;;
   esac
 
   command -v fzf >/dev/null && {
@@ -29,10 +29,6 @@ function _zsh_load_aliases() {
   command -v terragrunt >/dev/null && {
     alias tg="terragrunt"
   }
-
-  if command -v ngrok &>/dev/null; then
-    eval "$(ngrok completion)"
-  fi
 
   alias v="nvim"
   alias cl="clear"
@@ -73,7 +69,7 @@ function _zsh_load_aliases() {
   alias md='mkdir -p'
   alias rd=rmdir
 
-  function d () {
+  function d() {
     if [[ -n $1 ]]; then
       dirs "$@"
     else

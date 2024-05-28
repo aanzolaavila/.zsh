@@ -4,7 +4,7 @@ function add_path() {
   local tmpf=$TMP_PATH
   local add=$1
   # echo "adding $add to $tmpf"
-  echo "export PATH=\"\$PATH:$add\"" >> $tmpf
+  echo "export PATH=\"\$PATH:$add\"" >>$tmpf
 }
 
 function is_darwin() {

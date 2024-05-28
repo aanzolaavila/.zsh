@@ -36,6 +36,8 @@ function update_prod_k8s_context() {
 current_ctx=$(kubectl config current-context)
 
 update_dev_k8s_context
-update_prod_k8s_context
+# in case it fails in the middle
+kubectl config use-context "${current_ctx}"
 
+update_prod_k8s_context
 kubectl config use-context "${current_ctx}"

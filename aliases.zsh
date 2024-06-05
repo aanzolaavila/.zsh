@@ -1,6 +1,5 @@
 function _zsh_load_aliases() {
   _evalcache zoxide init --cmd cd zsh
-  _evalcache thefuck --alias
 
   # Notifications
   local os="$(uname -s)"

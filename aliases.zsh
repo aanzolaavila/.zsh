@@ -1,6 +1,4 @@
 function _zsh_load_aliases() {
-  _evalcache zoxide init --cmd cd zsh
-
   # Notifications
   local os="$(uname -s)"
   case "${os}" in

@@ -3,26 +3,32 @@
 set -e
 
 function usage() {
-    echo "Performs different operations to different PDF files"
-    echo ""
-    echo "Usage: $0 [compress|rasterize|merge|totext|convert] pdf_file [pdf_file ...] output_file"
-    exit 1
+	echo "Performs different backups options automatically"
+	echo ""
+	echo "Usage: $0 [notes|ssh]"
+	exit 1
 }
 
-hash rclone 2>/dev/null || { echo "ERROR: rclone is not installed"; exit 1; }
-hash restic 2>/dev/null || { echo "ERROR: restic is not installed"; exit 1; }
+hash rclone 2>/dev/null || {
+	echo "ERROR: rclone is not installed"
+	exit 1
+}
+hash restic 2>/dev/null || {
+	echo "ERROR: restic is not installed"
+	exit 1
+}
 
 action="${1}"
 
 case $action in
-  notes)
-  	  restic -r rclone:gdrive:backups/wiki backup ~/wiki
-    ;;
-  ssh)
-  	  restic -r rclone:gdrive:backups/ssh backup ~/.ssh
-    ;;
-  *)
-    echo "Invalid action."
-    usage
-    ;;
+notes)
+	restic -r rclone:gdrive:backups/wiki backup ~/wiki
+	;;
+ssh)
+	restic -r rclone:gdrive:backups/ssh backup ~/.ssh
+	;;
+*)
+	echo "Invalid action."
+	usage
+	;;
 esac

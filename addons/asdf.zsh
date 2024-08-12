@@ -3,6 +3,8 @@ function _zsh_load_asdf() {
   local plugin_dir="$asdf_dir/plugins"
   local tool_versions_loc="$HOME/.tool-versions"
 
+  add_path "$HOME/.asdf/shims"
+
   local new_plugin=false
 
   if [[ ! -e $tool_versions_loc ]]; then

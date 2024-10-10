@@ -37,7 +37,7 @@ run_saml_cmd() {
 RED='\033[0;31m'
 NC='\033[0m' # No Color
 
-profiles=("build-admin build-dev build-power-user flex-admin flex-dev flex-orion-admin prod-orion-admin prod security-admin security-power-user bi it sandbox root-admin root-dev terraform-sandbox terraform-sandbox-admin vendors-admin")
+profiles=("build-admin build-dev build-power-user flex-admin flex-dev flex-orion-admin prod-orion-admin prod prod-ro security-admin security-power-user bi it sandbox root-admin root-dev terraform-sandbox terraform-sandbox-admin vendors-admin")
 help_flags=("-h --help help -help")
 
 if [[ ! " ${profiles[@]} " =~ " ${1} " ]] || [[ " ${help_flags[@]} " =~ " ${1} " ]]; then
@@ -75,6 +75,9 @@ case $1 in
     ;;
   prod)
     run_saml_cmd $1 arn:aws:iam::675498590832:role/SSOProduction $@
+    ;;
+  prod-ro)
+    run_saml_cmd $1 arn:aws:iam::675498590832:role/SSO-Prod-ReadOnly $@
     ;;
   security-admin)
     run_saml_cmd $1 arn:aws:iam::761727872165:role/SSO-Security-Admin $@

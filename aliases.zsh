@@ -17,7 +17,6 @@ function _zsh_load_aliases() {
     command -v fd >/dev/null && alias fcd="cd \$(fd --type d | fzf || echo '.')"
   }
 
-  # bat
   command -v bat >/dev/null && {
     alias cat="bat"
     alias cata="bat -A"

@@ -38,7 +38,7 @@ if not_in_tmux; then
 fi
 
 if [[ $# -eq 1 ]]; then
-  selected="${1}"
+  selected=$(realpath "${1}")
 fi
 
 if [[ -z ${selected} ]]; then

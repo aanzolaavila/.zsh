@@ -12,11 +12,6 @@ function _zsh_load_aliases() {
   } ;;
   esac
 
-  command -v fzf >/dev/null && {
-    alias hg="_cmd=\$(history 1 | cut -c 8- | awk '!seen[\$0]++' /dev/stdin | fzf); echo '>>' \${_cmd}; eval \${_cmd}"
-    command -v fd >/dev/null && alias fcd="cd \$(fd --type d | fzf || echo '.')"
-  }
-
   command -v bat >/dev/null && {
     alias cat="bat"
     alias cata="bat -A"
@@ -30,8 +25,6 @@ function _zsh_load_aliases() {
   alias cl="clear"
   alias la="ls -al"
   alias lg="lazygit"
-
-  alias zettle="date +%Y%m%d%H%M"
 
   alias prettycsv="column -t -s, | less -S -N"
   alias openports="sudo lsof -i -P -n | grep LISTEN"

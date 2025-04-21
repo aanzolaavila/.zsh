@@ -27,6 +27,9 @@ notes)
 ssh)
 	restic -r rclone:gdrive:backups/ssh backup ~/.ssh
 	;;
+finances)
+	restic -r rclone:gdrive:backups/finances backup ~/Documents/finances
+	;;
 *)
 	echo "Invalid action."
 	usage

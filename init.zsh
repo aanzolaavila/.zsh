@@ -69,7 +69,7 @@ rm $TMP_PATH
 # Taken from https://www.linuxjournal.com/content/removing-duplicate-path-entries
 export PATH=$(echo -n $PATH | awk -v RS=: '!($0 in a) {a[$0]; printf("%s%s", length(a) > 1 ? ":" : "", $0)}')
 
-source $ZSH_LOCATION/tmux.zsh
+source $ZSH_LOCATION/sessions.zsh
 
 if [[ $benchmark = true ]]; then
   zprof

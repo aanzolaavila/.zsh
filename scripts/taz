@@ -21,15 +21,11 @@ function create_if_needed_and_attach() {
   local session_name="${1}"
   local start_directory="${2}"
 
-  if not_in_zellij; then
-    zellij
-  else
-    if ! session_exists "${session_name}"; then
-      create_detached_session "${session_name}" "${start_directory}"
-    fi
-    # Support for switching is not yet implemented for zellij
-    # Issue: https://github.com/zellij-org/zellij/issues/884
+  if ! session_exists "${session_name}"; then
+    create_detached_session "${session_name}" "${start_directory}"
   fi
+  # XXX Support for switching is not yet implemented for zellij
+  # Issue: https://github.com/zellij-org/zellij/issues/884
 }
 
 # === START ===

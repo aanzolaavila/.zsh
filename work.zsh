@@ -11,3 +11,5 @@ fi
 if [[ ! -z ${AT_WORK} ]]; then
   source $ZSH_LOCATION/work/swiftnav/init.zsh
 fi
+
+source $ZSH_LOCATION/work/treble/init.zsh

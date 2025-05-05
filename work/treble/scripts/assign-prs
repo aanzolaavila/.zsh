@@ -1,0 +1,51 @@
+#!/usr/bin/env bash
+
+set -e
+
+function get_current_repo() {
+  local repo_name
+  if [ -d ".git" ]; then
+    repo_name="$(git config --get remote.origin.url | cut -d ':' -f 2)"
+  elif [ -d ".jj" ]; then
+    repo_name="$(jj git remote list | head -n 1 | cut -d ':' -f 2)"
+  else
+    echo "No git nor jujutsu repo detected"
+    exit 1
+  fi
+
+  # stripping .git suffix
+  echo "${repo_name%%.git}"
+}
+
+function get_current_prs() {
+  local repo="${1}"
+  gh pr list \
+    --repo "${repo}" \
+    --author @me \
+    --json "url" --jq '.[] | .url'
+}
+
+function assign_reviewers() {
+  local pr="${1}"
+
+  gh pr edit "${pr}" \
+    --add-reviewer spsaaibi \
+    --add-reviewer Yefri97 \
+    --add-reviewer jcmnavia \
+    --add-reviewer jencina-treble \
+    --add-reviewer jmz7v \
+    --add-reviewer Sborzguilherme \
+    --add-reviewer volcinschi \
+    --add-reviewer Zekkenn
+}
+
+
+repo=$(get_current_repo)
+prs=$(get_current_prs "${repo}")
+
+echo "${prs}"
+
+while IFS= read -r pr; do
+  echo "Assigning reviewers for PR '${pr}'"
+  assign_reviewers "${pr}"
+done <<< "${prs}"

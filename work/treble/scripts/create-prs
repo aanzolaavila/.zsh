@@ -1,0 +1,59 @@
+#!/usr/bin/env bash
+
+set -e
+
+function get_current_repo() {
+  local repo_name
+  if [ -d ".git" ]; then
+    repo_name="$(git config --get remote.origin.url | cut -d ':' -f 2)"
+  elif [ -d ".jj" ]; then
+    repo_name="$(jj git remote list | head -n 1 | cut -d ':' -f 2)"
+  else
+    echo "No git nor jujutsu repo detected"
+    exit 1
+  fi
+
+  # stripping .git suffix
+  echo "${repo_name%%.git}"
+}
+
+function get_repo_branches() {
+  local repo="${1}"
+  gh api "repos/${repo}/branches" \
+    --paginate \
+    --jq ".[] | .name"
+}
+
+function get_opened_pr_heads() {
+  local repo="${1}"
+  gh pr list \
+    --repo "${repo}" \
+    --author @me \
+    --json "headRefName" | jq '.[] | .headRefName' -r
+}
+
+function create_pr() {
+  local repo="${1}"
+  local branch="${2}"
+
+  gh pr create \
+    --repo "${repo}" \
+    --head "${branch}" \
+    --title "[WIP] ${branch}" \
+    --fill-verbose \
+    --assignee @me \
+    --draft \
+    --dry-run
+}
+
+repo=$(get_current_repo)
+branches=$(get_repo_branches "${repo}" | grep "anzola")
+branches_with_pr=$(get_opened_pr_heads "${repo}")
+branches_without_pr=$(comm -3 \
+  <(echo "${branches}" | sort) \
+  <(echo "${branches_with_pr}" | sort))
+
+while IFS= read -r branch; do
+  echo "Creating PR for branch '${branch}'"
+  create_pr "${repo}" "${branch}"
+done <<< "${branches_without_pr}"

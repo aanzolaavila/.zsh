@@ -14,6 +14,10 @@ function _zsh_load_completions() {
 
     _evalcache register-python-argcomplete pipx
   fi
+
+  if command -v jj &>/dev/null; then
+    _evalcache jj util completion zsh
+  fi
 }
 
 deferfunctions+=_zsh_load_completions

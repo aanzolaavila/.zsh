@@ -32,8 +32,8 @@ function _zsh_load_configs() {
   export CPPFLAGS="$CPPFLAGS -I/opt/homebrew/opt/llvm/include"
 
   export GOPATH=$HOME/go
-  add_path $PATH:$GOPATH/bin
-  add_path $PATH:$HOME/.local/bin
+  add_path "$GOPATH/bin:$PATH"
+  add_path "$HOME/.local/bin:$PATH"
   is_darwin && add_path $PATH:/Applications/MySQLWorkbench.app/Contents/MacOS
 
   if hash nvim 2>/dev/null; then

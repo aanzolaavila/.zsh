@@ -26,4 +26,6 @@ function _zsh_load_asdf() {
   if [[ $new_plugin = true ]]; then
     asdf install
   fi
+
+  _evalcache asdf completion zsh
 }

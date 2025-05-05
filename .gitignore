@@ -84,3 +84,6 @@ zsdoc/data
 .zsh_history
 zim/.zshrc
 .zshrc
+
+# From OMZ, might be worth to rethink location
+cache/

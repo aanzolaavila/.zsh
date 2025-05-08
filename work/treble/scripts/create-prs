@@ -53,9 +53,10 @@ branches_without_pr=$(comm -23 \
   <(echo "${branches_with_pr}" | sort))
 
 while IFS=$'\n' read -r branch; do
-  echo "Creating PR for branch '${branch}'"
   if [[ "${branch}" == "" ]]; then
     continue
   fi
+
+  echo "Creating PR for branch '${branch}'"
   create_pr "${repo}" "${branch}"
 done <<<"${branches_without_pr}"

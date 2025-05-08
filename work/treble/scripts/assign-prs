@@ -75,9 +75,9 @@ repo=$(get_current_repo)
 prs=$(get_current_prs "${repo}")
 
 while IFS=$'\n' read -r pr; do
-  echo "Assigning reviewers for PR '${pr}'"
   current_reviewers=$(get_current_reviewers "${repo}" "${pr}")
   missing_reviewers=$(skip_current_reviewers "${current_reviewers}")
+  echo "Assigning missing reviewers for PR '${pr}':"
   echo "${missing_reviewers}"
   assign_reviewers "${pr}" "${missing_reviewers}"
 done <<<"${prs}"

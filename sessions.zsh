@@ -1,11 +1,10 @@
-# Always run zellij by default
-_not_inside_zellij() { [[ -z "$ZELLIJ" ]]; }
+# Always run tmux by default
+_not_inside_tmux() { [[ -z "$TMUX" ]]; }
 
-ensure_zellij_is_running() {
-  if _not_inside_zellij; then
-    taz "${HOME}"
-    zellij attach "${USER}"
+ensure_tmux_is_running() {
+  if _not_inside_tmux; then
+    tat "${HOME}"
   fi
 }
 
-ensure_zellij_is_running
+ensure_tmux_is_running

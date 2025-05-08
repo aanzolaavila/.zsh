@@ -42,8 +42,7 @@ function create_pr() {
     --title "[WIP] ${branch}" \
     --fill-verbose \
     --assignee @me \
-    --draft \
-    --dry-run
+    --draft
 }
 
 repo=$(get_current_repo)

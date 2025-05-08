@@ -40,7 +40,7 @@ function create_pr() {
     --repo "${repo}" \
     --head "${branch}" \
     --title "[WIP] ${branch}" \
-    --fill-verbose \
+    --body "WIP" \
     --assignee @me \
     --draft
 }
@@ -48,11 +48,14 @@ function create_pr() {
 repo=$(get_current_repo)
 branches=$(get_repo_branches "${repo}" | grep "anzola")
 branches_with_pr=$(get_opened_pr_heads "${repo}")
-branches_without_pr=$(comm -3 \
+branches_without_pr=$(comm -23 \
   <(echo "${branches}" | sort) \
   <(echo "${branches_with_pr}" | sort))
 
-while IFS= read -r branch; do
+while IFS=$'\n' read -r branch; do
   echo "Creating PR for branch '${branch}'"
+  if [[ "${branch}" == "" ]]; then
+    continue
+  fi
   create_pr "${repo}" "${branch}"
-done <<< "${branches_without_pr}"
+done <<<"${branches_without_pr}"

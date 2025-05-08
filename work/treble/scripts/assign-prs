@@ -2,6 +2,18 @@
 
 set -e
 
+default_reviewers=(
+  "aanzolaavila"
+  "jcmnavia"
+  "jencina-treble"
+  "jmz7v"
+  "Sborzguilherme"
+  "spsaaibi"
+  "volcinschi"
+  "Yefri97"
+  "Zekkenn"
+)
+
 function get_current_repo() {
   local repo_name
   if [ -d ".git" ]; then
@@ -22,30 +34,50 @@ function get_current_prs() {
   gh pr list \
     --repo "${repo}" \
     --author @me \
-    --json "url" --jq '.[] | .url'
+    --json "url,isDraft" \
+    --jq '.[] | select(.isDraft == false) | .url'
+}
+
+function get_current_reviewers() {
+  local repo="${1}"
+  local pr="${2}"
+
+  gh pr view \
+    "${pr}" \
+    --repo "${repo}" \
+    --json 'reviewRequests' \
+    --jq '.reviewRequests | .[] | .login'
+}
+
+function skip_current_reviewers() {
+  local current_reviewers="${1}"
+
+  comm -23 \
+    <(printf "%s\n" "${default_reviewers[@]}" | sort) \
+    <(echo "${current_reviewers}" | sort)
 }
 
 function assign_reviewers() {
   local pr="${1}"
+  local reviewers="${2}"
 
-  gh pr edit "${pr}" \
-    --add-reviewer spsaaibi \
-    --add-reviewer Yefri97 \
-    --add-reviewer jcmnavia \
-    --add-reviewer jencina-treble \
-    --add-reviewer jmz7v \
-    --add-reviewer Sborzguilherme \
-    --add-reviewer volcinschi \
-    --add-reviewer Zekkenn
+  reviewer_args=()
+  while IFS=$'\n' read -r reviewer; do
+    arg="--add-reviewer ${reviewer}"
+    reviewer_args+=("${arg}")
+  done <<<"${reviewers}"
+
+  reviewers_str="${reviewer_args[*]}"
+  gh pr edit "${pr}" ${reviewers_str}
 }
-
 
 repo=$(get_current_repo)
 prs=$(get_current_prs "${repo}")
 
-echo "${prs}"
-
-while IFS= read -r pr; do
+while IFS=$'\n' read -r pr; do
   echo "Assigning reviewers for PR '${pr}'"
-  assign_reviewers "${pr}"
-done <<< "${prs}"
+  current_reviewers=$(get_current_reviewers "${repo}" "${pr}")
+  missing_reviewers=$(skip_current_reviewers "${current_reviewers}")
+  echo "${missing_reviewers}"
+  assign_reviewers "${pr}" "${missing_reviewers}"
+done <<<"${prs}"

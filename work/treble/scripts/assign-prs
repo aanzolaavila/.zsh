@@ -39,14 +39,15 @@ function get_current_prs() {
 }
 
 function get_current_reviewers() {
+  # Get current reviewers, people that already reviewed and assignees
   local repo="${1}"
   local pr="${2}"
 
   gh pr view \
     "${pr}" \
     --repo "${repo}" \
-    --json 'reviewRequests' \
-    --jq '.reviewRequests | .[] | .login'
+    --json 'reviewRequests,reviews,assignees' \
+    --jq '[.reviewRequests[] | .login] + [.reviews[] | .author.login] + [.assignees[] | .login] | unique | .[]'
 }
 
 function skip_current_reviewers() {
@@ -63,12 +64,20 @@ function assign_reviewers() {
 
   reviewer_args=()
   while IFS=$'\n' read -r reviewer; do
+    if [ "${reviewer}" == "" ]; then
+      continue
+    fi
+
     arg="--add-reviewer ${reviewer}"
     reviewer_args+=("${arg}")
   done <<<"${reviewers}"
 
   reviewers_str="${reviewer_args[*]}"
-  gh pr edit "${pr}" ${reviewers_str}
+  if [ "${reviewers_str}" != "" ]; then
+    gh pr edit "${pr}" ${reviewers_str}
+  else
+    echo "No reviewers missing to add"
+  fi
 }
 
 repo=$(get_current_repo)
@@ -77,7 +86,6 @@ prs=$(get_current_prs "${repo}")
 while IFS=$'\n' read -r pr; do
   current_reviewers=$(get_current_reviewers "${repo}" "${pr}")
   missing_reviewers=$(skip_current_reviewers "${current_reviewers}")
-  echo "Assigning missing reviewers for PR '${pr}':"
-  echo "${missing_reviewers}"
+  printf "Assigning missing reviewers for PR '%s':\n%s" "${pr}" "${missing_reviewers}"
   assign_reviewers "${pr}" "${missing_reviewers}"
 done <<<"${prs}"

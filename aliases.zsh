@@ -21,10 +21,27 @@ function _zsh_load_aliases() {
     alias tg="terragrunt"
   }
 
+  command -v terraform >/dev/null && {
+    alias tfins='terraform state show $(terraform state list | fzf) | bat'
+  }
+
+  command -v gh >/dev/null && {
+    alias ghforreview='gh pr list --json "isDraft,url" --jq ".[] | select(.isDraft == false) | .url"'
+    alias ghallforreview='gh search prs --owner "treble-ai" --assignee "aanzolaavila" --state "open" --draft=false --json "url" --jq ".[] | .url"'
+    alias ghpending='gh search prs --owner "treble-ai" --assignee "aanzolaavila" --state "open" --draft'
+  }
+
   alias v="nvim"
   alias cl="clear"
   alias la="ls -al"
-  alias lg="lazygit"
+
+  command -v lazygit >/dev/null && {
+    alias lg="lazygit"
+  }
+
+  if command -v ngrok &>/dev/null; then
+    eval "$(ngrok completion)"
+  fi
 
   alias prettycsv="column -t -s, | less -S -N"
   alias openports="sudo lsof -i -P -n | grep LISTEN"

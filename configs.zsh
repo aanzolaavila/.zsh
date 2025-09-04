@@ -14,7 +14,11 @@ function _zsh_load_configs() {
   add_path "$HOME/.zsh/scripts:$PATH"
 
   # Rust
-  if [ -d "$HOME/.cargo/bin" ]; then
+  local asdf_rust_version=$(asdf current rust | tail -n 1 | awk '{ print $2 }')
+  local asdf_rust_path="$HOME/.asdf/installs/rust/${asdf_rust_version}"
+  if [ -d "${asdf_rust_path}" ]; then
+    source "${asdf_rust_path}/env"
+  elif [ -d "$HOME/.cargo/bin" ]; then
     add_path "$HOME/.cargo/bin:$PATH"
   fi
 

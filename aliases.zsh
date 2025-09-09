@@ -39,6 +39,10 @@ function _zsh_load_aliases() {
     alias lg="lazygit"
   }
 
+  command -v todo.sh >/dev/null && {
+    alias t="todo.sh"
+  }
+
   if command -v ngrok &>/dev/null; then
     eval "$(ngrok completion)"
   fi

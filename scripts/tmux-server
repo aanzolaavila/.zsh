@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+
+DEFAULT_LOCATION="/private/tmp"
+
+_not_inside_tmux() { [[ -z "$TMUX" ]]; }
+if ! _not_inside_tmux; then
+  echo "ERROR: will not run a TMUX server inside another."
+  exit 1
+fi
+
+get_servers() {
+  local uid
+  uid="$(id -u)"
+  pushd "${DEFAULT_LOCATION}/tmux-${uid}" >/dev/null || exit 1
+  local servers
+  servers=("$(ls -l1)")
+  popd >/dev/null || exit 1
+  echo "${servers[@]}"
+}
+
+selected="$(get_servers | fzf --tmux=center)"
+
+echo "selected: '${selected}'"
+if [[ -z "${selected}" ]]; then
+  echo "Nothing to do."
+  exit 0
+fi
+
+directory=${HOME}
+session_name=$(basename "${directory}")
+tmux -L "${selected}" new-session -s "${session_name}" -c "${directory}" || tmux -L "${selected}" attach -t "${session_name}"

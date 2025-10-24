@@ -13,6 +13,7 @@ default_reviewers=(
   "Yefri97"
   "Zekkenn"
   "unRob"
+  "camiarias09"
 )
 
 function get_current_repo() {

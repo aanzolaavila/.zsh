@@ -29,7 +29,8 @@ function _zsh_load_aliases() {
     alias ghforreview='gh pr list --json "isDraft,url" --jq ".[] | select(.isDraft == false) | .url"'
     alias ghallforreview='gh search prs --owner "treble-ai" --assignee "aanzolaavila" --state "open" --draft=false --json "url" --jq ".[] | .url"'
     alias ghpending='gh search prs --owner "treble-ai" --assignee "aanzolaavila" --state "open" --draft'
-    alias ghalltomain='gh pr list --json number | jq -r ".[].number" | xargs -I {} gh pr edit {} --base main'
+    alias ghalltomain='gh pr list --json number --assignee aanzolaavila | jq -r ".[].number" | xargs -I {} gh pr edit {} --base main'
+    alias ghalltomaster='gh pr list --json number --assignee aanzolaavila | jq -r ".[].number" | xargs -I {} gh pr edit {} --base master'
   }
 
   alias v="nvim"

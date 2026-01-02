@@ -33,7 +33,10 @@ function _zsh_load_aliases() {
     alias ghalltomaster='gh pr list --json number --assignee aanzolaavila | jq -r ".[].number" | xargs -I {} gh pr edit {} --base master'
   }
 
-  alias v="nvim"
+  command -v nvim >/dev/null && {
+    alias v="nvim"
+  }
+
   alias cl="clear"
   alias la="ls -al"
 
@@ -44,10 +47,6 @@ function _zsh_load_aliases() {
   command -v todo.sh >/dev/null && {
     alias t="todo.sh"
   }
-
-  if command -v ngrok &>/dev/null; then
-    eval "$(ngrok completion)"
-  fi
 
   alias prettycsv="column -t -s, | less -S -N"
   alias openports="sudo lsof -i -P -n | grep LISTEN"

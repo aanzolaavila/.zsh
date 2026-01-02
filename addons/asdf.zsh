@@ -1,4 +1,4 @@
-function _zsh_load_asdf() {
+function setup_asdf() {
   local asdf_dir="$HOME/.asdf"
   local plugin_dir="$asdf_dir/plugins"
   local tool_versions_loc="$HOME/.tool-versions"
@@ -25,6 +25,12 @@ function _zsh_load_asdf() {
 
   if [[ $new_plugin = true ]]; then
     asdf install
+  fi
+}
+
+function _zsh_load_asdf() {
+  if _zsh_once asdf; then
+    setup_asdf
   fi
 
   _evalcache asdf completion zsh

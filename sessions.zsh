@@ -2,7 +2,6 @@ DEFAULT_LOCATION="/private/tmp"
 
 INITIAL_SERVERS=("default" "personal")
 
-# Always run tmux by default
 _not_inside_tmux() { [[ -z "$TMUX" ]]; }
 
 get_servers() {

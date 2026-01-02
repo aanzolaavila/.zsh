@@ -9,7 +9,7 @@ function _zsh_load_linux_configs() {
   xset r rate 150 45
 }
 
-function _zsh_load_configs() {
+function _zsh_config_setup() {
   # Custom scripts
   add_path "$HOME/.zsh/scripts:$PATH"
 
@@ -17,7 +17,8 @@ function _zsh_load_configs() {
   local asdf_rust_version=$(asdf current rust | tail -n 1 | awk '{ print $2 }')
   local asdf_rust_path="$HOME/.asdf/installs/rust/${asdf_rust_version}"
   if [ -d "${asdf_rust_path}" ]; then
-    source "${asdf_rust_path}/env"
+    # Do nothing
+    # source "${asdf_rust_path}/env"
   elif [ -d "$HOME/.cargo/bin" ]; then
     add_path "$HOME/.cargo/bin:$PATH"
   fi
@@ -48,9 +49,6 @@ function _zsh_load_configs() {
     export MANPAGER="sh -c 'col -bx | bat -l man -p'"
   fi
 
-  bindkey '^[[A' history-substring-search-up
-  bindkey '^[[B' history-substring-search-down
-
   source $ZSH_LOCATION/configs/inputs.zsh
 
   is_linux && _zsh_load_linux_configs
@@ -58,4 +56,14 @@ function _zsh_load_configs() {
   # Python config
   export PYTHONUSERBASE="$HOME/.local/python"
   mkdir -p $PYTHONUSERBASE
+
+}
+
+function _zsh_load_configs() {
+  _zsh_once zsh && {
+    _zsh_config_setup
+  }
+
+  bindkey '^[[A' history-substring-search-up
+  bindkey '^[[B' history-substring-search-down
 }

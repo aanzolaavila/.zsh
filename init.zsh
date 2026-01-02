@@ -1,5 +1,10 @@
 export ZSH_EVALCACHE_DIR="/tmp/.zsh-evalcache"
 
+# Define unique identifier coming from first tty to exist
+[[ -z "${ROOT_TTY}" ]] && {
+  export ROOT_TTY="${TTY}"
+}
+
 local benchmark=false
 
 if [[ $benchmark = true ]]; then
@@ -56,23 +61,22 @@ for f in ${deferfunctions[@]}; do
   $f
 done
 
-if test -x "/usr/libexec/path_helper"; then
-  eval "$(/usr/libexec/path_helper)"
-fi
+_zsh_once path && {
+  eval "$(cat $TMP_PATH)"
+  rm $TMP_PATH
 
-export PATH="/opt/homebrew/bin:$PATH"
-
-eval "$(cat $TMP_PATH)"
-rm $TMP_PATH
-
-# Cleanup PATH
-# Taken from https://www.linuxjournal.com/content/removing-duplicate-path-entries
-export PATH=$(echo -n $PATH | awk -v RS=: '!($0 in a) {a[$0]; printf("%s%s", length(a) > 1 ? ":" : "", $0)}')
+  # Cleanup PATH
+  # Taken from https://www.linuxjournal.com/content/removing-duplicate-path-entries
+  export PATH=$(echo -n $PATH | awk -v RS=: '!($0 in a) {a[$0]; printf("%s%s", length(a) > 1 ? ":" : "", $0)}')
+}
 
 source $ZSH_LOCATION/sessions.zsh
 
 if [[ $benchmark = true ]]; then
   zprof
 fi
+
+# Remove locks when tty is terminating
+trap _zsh_remove_once_locks EXIT
 
 # async_process_results general_worker worker_callback

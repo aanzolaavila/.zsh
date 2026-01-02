@@ -9,20 +9,35 @@ function load_secret() {
   fi
 }
 
+function load_secret_from_bw() {
+  local name="${1}"
+  local uuid="${2}"
+
+  local value=$(bw get item "${uuid}" | jq '.notes' -r) || {
+    echo "Failed to get secret ${name} from Bitwarden"
+    false
+    return
+  }
+
+  export "${name}"="${value}"
+}
+
+function refresh_bw_session() {
+  command -v bw >/dev/null && {
+    BW_SESSION="$(bw unlock --raw)"
+    export BW_SESSION
+  }
+}
+
 function _zsh_load_secrets() {
-  # ensure all secrets are protected
-  local secrets_dir="$HOME/.secrets"
-  export SECRETS_DIR="${secrets_dir}"
-  mkdir -p $secrets_dir
-  chmod 700 $secrets_dir
-  find $secrets_dir -type d -exec chmod 700 {} \;
-  find $secrets_dir -type f -exec chmod 600 {} \;
+  _zsh_once "secrets" || {
+    return
+  }
 
-  # loading secrets
+  # Bitwarden
+  # Always have fresh sessions
+  refresh_bw_session || return
 
-  load_secret BW_SESSION "$secrets_dir/bitwarden/session"
-  load_secret TODOIST_API_TOKEN "$secrets_dir/Todoist/api"
-  load_secret OPENAI_API_KEY "$secrets_dir/openai/api"
-
-  export TOSHL_SECRETS_LOCATION="$secrets_dir/toshl/email-sync"
+  load_secret_from_bw TODOIST_API_TOKEN "69d026ee-dcd4-465c-9e5d-b214006bb777"
+  load_secret_from_bw OPENAI_API_KEY "39156e60-c060-4d61-8556-b00d01066322"
 }

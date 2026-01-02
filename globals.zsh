@@ -41,3 +41,42 @@ function _zsh_load_globals() {
 
   _omz_env_variables
 }
+
+# Succeeds if it is the first time executing something with a name, otherwise it fails
+# Useful for first time setups, like starting tmux
+function _zsh_once() {
+  [[ -z "${ROOT_TTY}" ]] && {
+    echo "ERROR: No main ROOT_TTY identifier, cannot set unique once namespacing"
+    return
+  }
+
+  local lockname="${1}"
+  local tty_id=$(basename ${ROOT_TTY})
+
+  local locks_location="/tmp/zsh-locks-${tty_id}"
+  mkdir -p "${locks_location}"
+  local lock_path="${locks_location}/${lockname}"
+
+  if [[ -f "${lock_path}" ]]; then
+    # lock exists, then this is not the first time
+    false
+  else
+    touch "${lock_path}"
+    true
+  fi
+}
+
+function _zsh_remove_once_locks() {
+  [[ -z "${ROOT_TTY}" ]] && {
+    echo "ERROR: No main ROOT_TTY identifier, cannot remove once locks"
+    return
+  }
+
+  if [[ "${ROOT_TTY}" != "${TTY}" ]]; then
+    return
+  fi
+
+  local tty_id=$(basename ${TTY})
+  local locks_location="/tmp/zsh-locks-${tty_id}"
+  rm -rf "${locks_location}"
+}

@@ -1,4 +1,4 @@
-function _zsh_load_treble() {
+function load_treble() {
 	export PNPM_HOME="/Users/aanzolaavila/Library/pnpm"
 	add_path "${PNPM_HOME}"
 
@@ -7,6 +7,12 @@ function _zsh_load_treble() {
 	[ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"
 
 	add_path "$HOME/.zsh/work/treble/scripts"
+}
+
+function _zsh_load_treble() {
+	_zsh_once treble && {
+		load_treble
+	}
 }
 
 deferfunctions+=_zsh_load_treble

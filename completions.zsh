@@ -8,8 +8,10 @@ function _zsh_load_completions() {
   fi
 
   if command -v pipx &>/dev/null; then
-    pipx list --json | jq '.venvs.argcomplete' --exit-status >/dev/null || {
-      pipx install argcomplete
+    _zsh_once pipx && {
+      pipx list --json | jq '.venvs.argcomplete' --exit-status >/dev/null || {
+        pipx install argcomplete
+      }
     }
 
     _evalcache register-python-argcomplete pipx

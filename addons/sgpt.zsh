@@ -4,12 +4,11 @@ function _sgpt_zsh() {
     _sgpt_prev_cmd=$BUFFER
     BUFFER+="⌛"
     zle -I && zle redisplay
-    BUFFER=$(sgpt --shell <<< "$_sgpt_prev_cmd" --no-interaction)
+    BUFFER=$(sgpt --shell --no-interaction <<<"$_sgpt_prev_cmd")
     zle end-of-line
   fi
 }
 
 function _zsh_load_sgpt() {
   zle -N _sgpt_zsh
-  bindkey "${key_info[Control]}g" _sgpt_zsh
 }

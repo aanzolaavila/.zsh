@@ -57,6 +57,10 @@ function setup_python() {
 }
 
 function _zsh_config_setup() {
+  # Ignore EOF (Ctrl+D) on the terminal to avoid sudden closing
+  # unless it is pressed 10 times
+  setopt ignore_eof
+
   # Custom scripts
   _zsh_once custom_scripts_path && add_path "$HOME/.zsh/scripts:$PATH"
 

@@ -31,6 +31,8 @@ function _zsh_load_aliases() {
     alias ghpending='gh search prs --owner "treble-ai" --assignee "aanzolaavila" --state "open" --draft'
     alias ghalltomain='gh pr list --json number --assignee aanzolaavila | jq -r ".[].number" | xargs -I {} gh pr edit {} --base main'
     alias ghalltomaster='gh pr list --json number --assignee aanzolaavila | jq -r ".[].number" | xargs -I {} gh pr edit {} --base master'
+    alias ghls='gh pr list --author @me'
+    alias ghlsa='gh pr list'
   }
 
   command -v nvim >/dev/null && {

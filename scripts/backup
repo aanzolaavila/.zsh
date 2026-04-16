@@ -24,6 +24,9 @@ case $action in
 notes)
 	restic -r rclone:gdrive:backups/wiki backup ~/wiki
 	;;
+obsidian)
+	restic -r rclone:gdrive:backups/notes backup ~/Documents/notes
+	;;
 ssh)
 	restic -r rclone:gdrive:backups/ssh backup ~/.ssh
 	;;

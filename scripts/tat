@@ -46,7 +46,7 @@ if [[ -z ${selected} ]]; then
   exit 1
 fi
 
-session_name="$(basename "${selected}" | tr . _)"
+session_name="$(basename "${selected}" | tr '.' '_' | tr ':' '_')"
 
 printf 'session: %s | selected: %s\n' "${session_name}" "${selected}"
 

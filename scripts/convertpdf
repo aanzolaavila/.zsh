@@ -46,34 +46,63 @@ function convert_pdf() {
     pdftoppm -"${format}" "${input}" "${output}"
 }
 
+function decrypt_pdf() {
+    local input="${1}"
+    read -rsp "Enter PDF password: " pdf_password
+
+    local output="${input%.*}_decrypted.pdf"
+    qpdf --password="${pdf_password}" --decrypt "${input}" "${output}"
+}
+
 # === START ===
 
-hash gs 2>/dev/null || { echo "ERROR: Ghostscript is not installed"; exit 1; }
-hash pdfunite 2>/dev/null || { echo "ERROR: pdfunite is not installed"; exit 1; }
-hash pdftotext 2>/dev/null || { echo "ERROR: pdftotext is not installed"; exit 1; }
-hash pdftoppm 2>/dev/null || { echo "ERROR: pdftoppm is not installed"; exit 1; }
-hash qpdf 2>/dev/null || { echo "ERROR: qpdf is not installed"; exit 1; }
-hash pdfimages 2>/dev/null || { echo "ERROR: pdfimages is not installed"; exit 1; }
+hash gs 2>/dev/null || {
+    echo "ERROR: Ghostscript is not installed"
+    exit 1
+}
+hash pdfunite 2>/dev/null || {
+    echo "ERROR: pdfunite is not installed"
+    exit 1
+}
+hash pdftotext 2>/dev/null || {
+    echo "ERROR: pdftotext is not installed"
+    exit 1
+}
+hash pdftoppm 2>/dev/null || {
+    echo "ERROR: pdftoppm is not installed"
+    exit 1
+}
+hash qpdf 2>/dev/null || {
+    echo "ERROR: qpdf is not installed"
+    exit 1
+}
+hash pdfimages 2>/dev/null || {
+    echo "ERROR: pdfimages is not installed"
+    exit 1
+}
 
 action="${1}"
 
 case $action in
-  compress)
-      compress_pdf "${2}" "${3}"
+compress)
+    compress_pdf "${2}" "${3}"
     ;;
-  rasterize)
-      rasterize_pdf "${2}" "${3}"
+rasterize)
+    rasterize_pdf "${2}" "${3}"
     ;;
-  merge)
-      merge_pdf "${2}" "${3}" "${4}"
+merge)
+    merge_pdf "${2}" "${3}" "${4}"
     ;;
-  totext)
-      totext_pdf "${2}" "${3}"
+totext)
+    totext_pdf "${2}" "${3}"
     ;;
-  convert)
-      convert_pdf "${2}" "${3}" "${4}"
+convert)
+    convert_pdf "${2}" "${3}" "${4}"
     ;;
-  *)
+decrypt)
+    decrypt_pdf "${2}"
+    ;;
+*)
     echo "Invalid action."
     usage
     ;;

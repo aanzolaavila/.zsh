@@ -52,8 +52,25 @@ function setup_manpager() {
 }
 
 function setup_python() {
-  export PYTHONUSERBASE="$HOME/.local/python"
+  export PYTHONUSERBASE="${HOME}/.local/python"
   mkdir -p $PYTHONUSERBASE
+}
+
+function setup_zk() {
+  export ZK_NOTEBOOK_DIR="${HOME}/wiki"
+  if ! command -v zk &> /dev/null; then
+    return
+  fi
+
+  if ! [[ -d "${ZK_NOTEBOOK_DIR}/.zk" ]]; then
+    return
+  fi
+
+  if ! [[ -f "${ZK_NOTEBOOK_DIR}/.zk/notebook.db" ]]; then
+    pushd "${ZK_NOTEBOOK_DIR}"
+    zk index
+    popd
+  fi
 }
 
 function _zsh_config_setup() {
@@ -80,7 +97,10 @@ function _zsh_config_setup() {
   _zsh_once manpager && setup_manpager
 
   # Python
-  _zsh_once python && setup_manpager
+  _zsh_once python && setup_python
+
+  # zk for zettle notebook
+  _zsh_once zk && setup_zk
 
   source $ZSH_LOCATION/configs/inputs.zsh
 

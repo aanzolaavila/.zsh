@@ -1,5 +1,5 @@
 # --- Keeper helper ---
-typeset -g KP_CACHE="$HOME/.cache/kp_titles"
+typeset -g KP_CACHE="${HOME}/.cache/kp_titles"
 
 kp-refresh() {
   mkdir -p "${KP_CACHE:h}"
@@ -21,7 +21,7 @@ _kp() {
 }
 
 function load_fivn() {
-  add_path "$HOME/.zsh/work/five9/scripts"
+  add_path "${HOME}/.zsh/work/five9/scripts"
   compdef _kp kp
 
   ## Alias example

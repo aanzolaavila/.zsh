@@ -62,14 +62,31 @@ for f in ${deferfunctions[@]}; do
   $f
 done
 
-_zsh_once path && {
+function _setup_path() {
   eval "$(cat $TMP_PATH)"
   rm $TMP_PATH
 
   # Cleanup PATH
   # Taken from https://www.linuxjournal.com/content/removing-duplicate-path-entries
   export PATH=$(echo -n $PATH | awk -v RS=: '!($0 in a) {a[$0]; printf("%s%s", length(a) > 1 ? ":" : "", $0)}')
+  local tmp="${PATH}"
+
+  export PATH=$(cat .path_lockfile | tr '\n' ':')
+
+  local diff
+  diff=$(comm -23 \
+    <(echo "${tmp}" | tr ':' '\n' | sort) \
+    <(echo "${PATH}" | tr ':' '\n' | sort))
+
+  export PATH="${PATH}:$(echo $diff | tr '\n' ':')"
+
+  if ! [[ -z "${diff}" ]]; then
+    echo "${F_RED}WARNING:${F_RESET} path lockfile is different from expected"
+    echo "diff: ${diff}"
+  fi
 }
+
+_setup_path
 
 source $ZSH_LOCATION/sessions.zsh
 

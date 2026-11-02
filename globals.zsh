@@ -46,7 +46,7 @@ function _zsh_load_globals() {
 # Useful for first time setups, like starting tmux
 function _zsh_once() {
   [[ -z "${ROOT_TTY}" ]] && {
-    echo "ERROR: No main ROOT_TTY identifier, cannot set unique once namespacing"
+    echo "${F_RED}ERROR${F_RESET}: No main ROOT_TTY identifier, cannot set unique once namespacing"
     return
   }
 
@@ -68,7 +68,7 @@ function _zsh_once() {
 
 function _zsh_remove_once_locks() {
   [[ -z "${ROOT_TTY}" ]] && {
-    echo "ERROR: No main ROOT_TTY identifier, cannot remove once locks"
+    echo "${F_RED}ERROR${F_RESET}: No main ROOT_TTY identifier, cannot remove once locks"
     return
   }
 

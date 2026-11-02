@@ -18,8 +18,8 @@ declare -a deferfunctions
 confunctions=()
 deferfunctions=()
 
-source $ZSH_LOCATION/globals.zsh
 source $ZSH_LOCATION/colors.zsh
+source $ZSH_LOCATION/globals.zsh
 source $ZSH_LOCATION/zim.zsh
 source $ZSH_LOCATION/addons.zsh
 source $ZSH_LOCATION/neovim.zsh
@@ -63,6 +63,14 @@ for f in ${deferfunctions[@]}; do
 done
 
 function _setup_path() {
+  local lockfile
+  lockfile="${ZSH_LOCATION}/.path_lockfile"
+
+  if ! [[ -f "${lockfile}" ]]; then
+    # failsafe if the lockfile does not exist I don't end up without a PATH
+    return
+  fi
+
   eval "$(cat $TMP_PATH)"
   rm $TMP_PATH
 
@@ -71,7 +79,9 @@ function _setup_path() {
   export PATH=$(echo -n $PATH | awk -v RS=: '!($0 in a) {a[$0]; printf("%s%s", length(a) > 1 ? ":" : "", $0)}')
   local tmp="${PATH}"
 
-  export PATH=$(cat .path_lockfile | tr '\n' ':')
+  local new_path
+  new_path="$(cat ${lockfile} | tr '\n' ':')"
+  export PATH="${new_path}"
 
   local diff
   diff=$(comm -23 \
@@ -81,7 +91,7 @@ function _setup_path() {
   export PATH="${PATH}:$(echo $diff | tr '\n' ':')"
 
   if ! [[ -z "${diff}" ]]; then
-    echo "${F_RED}WARNING:${F_RESET} path lockfile is different from expected"
+    echo "${F_YELLOW}WARNING:${F_RESET} path lockfile is different from expected"
     echo "diff: ${diff}"
   fi
 }

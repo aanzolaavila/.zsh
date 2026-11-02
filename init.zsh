@@ -19,6 +19,7 @@ confunctions=()
 deferfunctions=()
 
 source $ZSH_LOCATION/globals.zsh
+source $ZSH_LOCATION/colors.zsh
 source $ZSH_LOCATION/zim.zsh
 source $ZSH_LOCATION/addons.zsh
 source $ZSH_LOCATION/neovim.zsh

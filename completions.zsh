@@ -3,9 +3,9 @@ function _zsh_load_completions() {
     _evalcache ngrok completion
   fi
 
-  if command -v pip &>/dev/null; then
-    _evalcache pip completion --zsh
-  fi
+  # if command -v pip &>/dev/null; then
+  #   _evalcache pip completion --zsh
+  # fi
 
   if command -v pipx &>/dev/null; then
     _zsh_once pipx && {

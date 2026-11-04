@@ -1,12 +1,12 @@
 /nix/var/nix/profiles/default/bin
-%HOME%/.asdf/shims
+%HOME%/.nix-profile/bin
 %HOME%/.cargo/bin
 %HOME%/.kimi-code/bin
 %HOME%/.local/bin
-%HOME%/.nix-profile/bin
 %HOME%/.orbstack/bin
 %HOME%/.zsh/scripts
 %HOME%/go/bin
+%HOME%/.asdf/shims
 /opt/homebrew/opt/llvm/bin
 /opt/homebrew/bin
 /var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin

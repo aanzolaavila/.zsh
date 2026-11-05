@@ -80,7 +80,7 @@ function _setup_path() {
   local tmp="${PATH}"
 
   local new_path
-  new_path="$(cat ${lockfile} | tr '\n' ':')"
+  new_path="$(cat ${lockfile} | sed -e "s|%HOME%|${HOME}|g" | tr '\n' ':')"}
   export PATH="${new_path}"
 
   local diff

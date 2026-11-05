@@ -36,7 +36,7 @@ function load_fivn() {
 oscloud() {
   local file="${OS_CLIENT_CONFIG_FILE:-${HOME}/.config/openstack/clouds.yaml}"
   local cloud
-  cloud=$(yq '.clouds | keys | .[]' "$file" | fzf --prompt="OS_CLOUD> " --height=40%) || return
+  cloud=$(yq '.clouds | keys | .[]' -r "$file" | fzf --prompt="OS_CLOUD> " --height=40%) || return
   export OS_CLOUD="$cloud"
   echo "OS_CLOUD=$OS_CLOUD"
 }

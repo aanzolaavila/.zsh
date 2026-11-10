@@ -1,0 +1,50 @@
+#!/usr/bin/env bash
+set -o errexit
+set -o nounset
+set -o pipefail
+
+
+USERNAME=${USERNAME:-${USER}}
+REMOTE="${REMOTE:-origin}"
+
+TRUNK=$(jj log -r 'trunk()' --no-graph \
+  -T "remote_bookmarks.filter(|b| b.remote() == \"${REMOTE}\").map(|b| b.name()).join(\"\\n\") ++ \"\\n\"" \
+  | head -n 1)
+
+if [ -z "$TRUNK" ]; then
+  echo "Could not determine trunk branch from jj (is ${REMOTE}/main or ${REMOTE}/master present? try 'jj git fetch')" >&2
+  exit 1
+fi
+
+# Bookmarked changes not yet in trunk, ancestors first (topological order).
+# jj log --reversed guarantees parents are listed before children.
+branches=$(jj log -r 'trunk()..bookmarks()' --reversed --no-graph \
+  -T 'local_bookmarks.map(|b| b.name()).join("\n") ++ "\n"' | grep "${USERNAME}" || true)
+
+while read -r branch; do
+  [ -z "$branch" ] && continue
+
+  # Nearest bookmarked ancestor(s): heads of the bookmarked changes strictly below this one
+  parents=$(jj log --no-graph \
+    -r "heads((trunk()..\"${branch}\"-) & bookmarks())" \
+    -T 'local_bookmarks.map(|b| b.name()).join("\n") ++ "\n"' | grep -v '^$' || true)
+
+  target="$TRUNK"
+  if [ -n "$parents" ]; then
+    target=$(echo "$parents" | head -n 1)
+    if [ "$(echo "$parents" | wc -l)" -gt 1 ]; then
+      echo "WARN: '${branch}' has multiple bookmarked parents ($(echo $parents)); using '${target}'" >&2
+    fi
+  fi
+
+  existing=$(glab mr list --source-branch "$branch" --output json | jq -r '.[0].target_branch // empty')
+
+  if [ -z "$existing" ]; then
+    echo "Creating MR: ${branch} -> ${target}"
+    glab mr create --source-branch "$branch" --target-branch "$target" \
+      --title "$branch" --description "WIP" --draft --no-editor --yes
+  elif [ "$existing" != "$target" ]; then
+    echo "Retargeting MR: ${branch}: ${existing} -> ${target}"
+    glab mr update "$branch" --target-branch "$target"
+  fi
+done <<<"$branches"

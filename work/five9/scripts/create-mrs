@@ -1,0 +1,79 @@
+#!/usr/bin/env bash
+set -o errexit
+set -o nounset
+set -o pipefail
+
+USERNAME="${USERNAME:-${USER}}"
+
+function get_current_repo() {
+  local url repo_name
+  if [ -d ".git" ]; then
+    url="$(git config --get remote.origin.url)"
+  elif [ -d ".jj" ]; then
+    url="$(jj git remote list | head -n 1 | awk '{print $2}')"
+  else
+    echo "No git nor jujutsu repo detected" >&2
+    exit 1
+  fi
+
+  # Handles ssh (git@host:group/sub/repo.git) and https (https://host/group/sub/repo.git)
+  if [[ "${url}" == *"://"* ]]; then
+    repo_name="${url#*://*/}"
+  else
+    repo_name="${url#*:}"
+  fi
+
+  # stripping .git suffix
+  echo "${repo_name%%.git}"
+}
+
+function get_repo_branches() {
+  local repo="${1}"
+  local encoded="${repo//\//%2F}"
+  glab api "projects/${encoded}/repository/branches?per_page=100" \
+    --paginate | jq -r '.[].name'
+}
+
+function get_opened_mr_heads() {
+  local repo="${1}"
+  local me
+  me="$(glab api user | jq -r '.username')"
+  glab mr list \
+    --repo "${repo}" \
+    --author "${me}" \
+    --per-page 100 \
+    --output json | jq -r '.[].source_branch'
+}
+
+function create_mr() {
+  local repo="${1}"
+  local branch="${2}"
+  local me
+  me="$(glab api user | jq -r '.username')"
+
+  glab mr create \
+    --repo "${repo}" \
+    --source-branch "${branch}" \
+    --title "${branch}" \
+    --description "WIP" \
+    --assignee "${me}" \
+    --draft \
+    --no-editor \
+    --yes
+}
+
+repo=$(get_current_repo)
+branches=$(get_repo_branches "${repo}" | grep "${USERNAME}")
+branches_with_mr=$(get_opened_mr_heads "${repo}")
+branches_without_mr=$(comm -23 \
+  <(echo "${branches}" | sort) \
+  <(echo "${branches_with_mr}" | sort))
+
+while IFS=$'\n' read -r branch; do
+  if [[ "${branch}" == "" ]]; then
+    continue
+  fi
+
+  echo "Creating MR for branch '${branch}'"
+  create_mr "${repo}" "${branch}"
+done <<<"${branches_without_mr}"

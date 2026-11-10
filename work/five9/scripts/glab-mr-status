@@ -1,0 +1,46 @@
+#!/usr/bin/env bash
+# Usage: glab-mr-status [tmux|ansi|zsh|plain]
+MODE="${1:-ansi}"
+CACHE="${XDG_CACHE_HOME:-$HOME/.cache}/glab-mr-status"
+TTL=120
+
+mtime() { stat -c %Y "$1" 2>/dev/null || stat -f %m "$1"; }
+
+if [ ! -f "$CACHE" ] || [ $(( $(date +%s) - $(mtime "$CACHE") )) -ge $TTL ]; then
+  counts=$(glab api "merge_requests?scope=created_by_me&state=opened&per_page=100" --paginate 2>/dev/null \
+    | jq -rs 'add // [] | [
+        length,
+        (map(select(.draft)) | length),
+        (map(select(.head_pipeline.status == "success")) | length),
+        (map(select(.head_pipeline.status == "failed")) | length),
+        (map(select(.head_pipeline.status | IN("running","pending","created","preparing","waiting_for_resource"))) | length),
+        (map(select(.has_conflicts)) | length)
+      ] | @tsv') && echo "$counts" > "$CACHE"
+fi
+
+[ -f "$CACHE" ] || { echo "MR ?"; exit 0; }
+read -r total draft ok fail run conflict < "$CACHE"
+
+# color NAME TEXT
+color() {
+  local name="$1" text="$2" code
+  case "$MODE" in
+    tmux)  echo -n "#[fg=${name}]${text}#[default]" ;;
+    zsh)   echo -n "%F{${name}}${text}%f" ;;
+    ansi)
+      case "$name" in
+        blue) code=34 ;; brightblack) code=90 ;; green) code=32 ;;
+        red) code=31 ;; yellow) code=33 ;; magenta) code=35 ;;
+      esac
+      printf '\033[%sm%s\033[0m' "$code" "$text" ;;
+    *)     echo -n "$text" ;;
+  esac
+}
+
+out="$(color blue "MR ${total}")"
+[ "$draft"    -gt 0 ] && out+=" $(color brightblack "◌${draft}")"
+[ "$ok"       -gt 0 ] && out+=" $(color green "✓${ok}")"
+[ "$run"      -gt 0 ] && out+=" $(color yellow "●${run}")"
+[ "$fail"     -gt 0 ] && out+=" $(color red "✗${fail}")"
+[ "$conflict" -gt 0 ] && out+=" $(color magenta "⚠${conflict}")"
+echo "$out"

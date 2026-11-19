@@ -1,0 +1,77 @@
+#!/usr/bin/env bash
+set -o errexit
+set -o nounset
+set -o pipefail
+
+username="${USER}"
+ticket=""
+description=""
+change_type="feat"
+
+if [[ -n "$TMUX" ]]; then
+  session_name=$(tmux display-message -p '#{session_name}' | grep -oE '^[[:alnum:]-]+')
+  if [[ "${session_name}" =~ ^[A-Z][A-Z0-9_]*-[0-9]+$ ]]; then
+	ticket="${session_name}"
+  else
+    echo "No match"
+  fi
+fi
+
+while getopts "t:d:c:u" opt; do
+  case "$opt" in
+    t) ticket="$OPTARG" ;;
+    d) description="$OPTARG" ;;
+    c) change_type="$OPTARG" ;;
+    u) username="$OPTARG" ;;
+    *) echo "Usage: $0 [-t ticket] [-d description] [-c change_type=feat] [-u username]" >&2; exit 1 ;;
+  esac
+done
+
+# Shift processed flags out of $@ so $1 refers to remaining positional args
+shift $((OPTIND - 1))
+
+if [[ -z "${ticket}" ]]; then
+  echo "ERROR: need jira ticket"
+  exit 1
+fi
+
+if [[ -z "${username}" ]]; then
+  echo "ERROR: username is required"
+  exit 1
+fi
+
+if [[ -z "${change_type}" ]]; then
+  echo "ERROR: change type is required, ex. feat / fix"
+  exit 1
+fi
+
+if ! [[ -z "${description}" ]]; then
+  description="-${description}"
+fi
+
+function sanitize_branch() {
+  local name="${1}"
+  # Replace characters invalid in Git/Jujutsu branch names with underscores
+  name="${name//[^a-zA-Z0-9._\/-]/_}"
+  # Collapse consecutive underscores, dots, or slashes
+  name=$(sed -E 's/[_]{2,}/_/g; s/[.]{2,}/./g; s/[\/]{2,}/\//g' <<< "$name")
+  # Strip leading/trailing dots, slashes, underscores, or hyphens
+  name=$(sed -E 's/^[._\/-]+|[._\/-]+$//g; s/\.lock$//g' <<< "$name")
+  echo "$name"
+}
+
+branch_name=$(printf "%s/%s-%s%s" "${change_type}" "${username}" "${ticket}" "${description}")
+branch_name=$(sanitize_branch "${branch_name}")
+
+read -rp "Create branch '$branch_name'? [y/N] " confirm
+if [[ "$confirm" =~ ^[Yy]$ ]]; then
+  if jj root &>/dev/null; then
+	jj bookmark create "${branch_name}"
+  else
+  	git checkout -b "$branch_name"
+  fi
+else
+  echo "Aborted."
+fi
+
+echo "${branch_name}"
